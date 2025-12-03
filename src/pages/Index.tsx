@@ -154,12 +154,12 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <img src="https://cdn.poehali.dev/files/360a80ca-f911-4f02-94ff-c2728b707994.jpg" alt="ТехноСиб" className="h-8 sm:h-10" />
             <nav className="hidden md:flex items-center gap-8">
-              <button onClick={() => scrollToSection('hero')} className="hover:text-primary transition-colors">Главная</button>
-              <button onClick={() => scrollToSection('equipment')} className="hover:text-primary transition-colors">Оборудование</button>
-              <button onClick={() => scrollToSection('promo')} className="hover:text-primary transition-colors">Акция</button>
-              <button onClick={() => scrollToSection('contacts')} className="hover:text-primary transition-colors">Контакты</button>
+              <button onClick={() => scrollToSection('hero')} className="text-lg font-semibold hover:text-primary transition-colors">Главная</button>
+              <button onClick={() => scrollToSection('equipment')} className="text-lg font-semibold hover:text-primary transition-colors">Оборудование</button>
+              <button onClick={() => scrollToSection('promo')} className="text-lg font-semibold hover:text-primary transition-colors">Акция</button>
+              <button onClick={() => scrollToSection('contacts')} className="text-lg font-semibold hover:text-primary transition-colors">Контакты</button>
             </nav>
-            <Button onClick={() => scrollToSection('form')} className="hidden md:inline-flex">Получить консультацию</Button>
+            <Button onClick={() => scrollToSection('form')} className="hidden md:inline-flex text-base font-semibold">Получить консультацию</Button>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon" className="md:hidden">
