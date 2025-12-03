@@ -77,7 +77,7 @@ const Index = () => {
     {
       id: 2,
       name: 'Вакуумный массажер для мяса GRZK500',
-      image: 'https://cdn.poehali.dev/projects/dc55a807-6efd-43bf-a71c-0f79d937bea4/files/bb354159-f362-4158-8ea1-1c94ef9b8065.jpg',
+      image: 'https://cdn.poehali.dev/files/b0157878-c79f-4e38-bd09-f70ede3185f5.jpg',
       features: ['Объём бака: 500 л', 'Вакуумный насос: 20 м³/ч', 'Реверс вращения', 'Сенсорный экран'],
       details: 'Профессиональное оборудование для подготовки мясного сырья'
     },
