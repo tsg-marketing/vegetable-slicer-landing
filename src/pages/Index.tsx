@@ -26,6 +26,7 @@ const Index = () => {
   const [quickFormData, setQuickFormData] = useState({ name: '', phone: '' });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedEquipment, setSelectedEquipment] = useState('');
+  const [selectedEquipmentImage, setSelectedEquipmentImage] = useState('');
 
   useEffect(() => {
     const targetDate = new Date('2025-12-22T23:59:59');
@@ -90,8 +91,9 @@ const Index = () => {
     setIsDialogOpen(false);
   };
 
-  const openQuickForm = (equipmentName: string) => {
+  const openQuickForm = (equipmentName: string, equipmentImage?: string) => {
     setSelectedEquipment(equipmentName);
+    setSelectedEquipmentImage(equipmentImage || '');
     setIsDialogOpen(true);
   };
 
@@ -304,7 +306,7 @@ const Index = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <Button onClick={() => openQuickForm(item.name)} className="w-full text-lg py-6 font-semibold">
+                  <Button onClick={() => openQuickForm(item.name, item.image)} className="w-full text-lg py-6 font-semibold">
                     Получить предложение
                   </Button>
                 </CardContent>
@@ -531,6 +533,15 @@ const Index = () => {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl sm:text-2xl">Получить предложение</DialogTitle>
+            {selectedEquipmentImage && (
+              <div className="mt-4 w-full aspect-square overflow-hidden bg-gray-100 rounded-lg">
+                <img 
+                  src={selectedEquipmentImage} 
+                  alt={selectedEquipment}
+                  className="w-full h-full object-contain p-4"
+                />
+              </div>
+            )}
             <p className="text-sm text-muted-foreground mt-2">
               {selectedEquipment}
             </p>
@@ -557,8 +568,8 @@ const Index = () => {
                 placeholder="+7 (999) 123-45-67"
               />
             </div>
-            <Button type="submit" className="w-full">
-              Отправить заявку
+            <Button type="submit" className="w-full text-xl py-6 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
+              Получить предложение со скидкой
             </Button>
           </form>
         </DialogContent>
