@@ -349,7 +349,7 @@ const Index = () => {
               </div>
             </div>
             <div className="text-center mt-12">
-              <Button size="lg" onClick={() => scrollToSection('form')}>
+              <Button size="lg" onClick={() => scrollToSection('form')} className="text-2xl px-12 py-8 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
                 Оставить заявку
               </Button>
             </div>
@@ -432,7 +432,7 @@ const Index = () => {
                       Согласен на обработку персональных данных
                     </Label>
                   </div>
-                  <Button type="submit" size="lg" className="w-full">
+                  <Button type="submit" size="lg" className="w-full text-2xl py-8 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
                     Получить КП со скидкой 5%
                   </Button>
                 </form>
