@@ -7,6 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 
@@ -21,6 +23,9 @@ const Index = () => {
     comment: '',
     consent: false
   });
+  const [quickFormData, setQuickFormData] = useState({ name: '', phone: '' });
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedEquipment, setSelectedEquipment] = useState('');
 
   useEffect(() => {
     const targetDate = new Date('2025-12-22T23:59:59');
@@ -64,6 +69,30 @@ const Index = () => {
       description: 'Мы свяжемся с вами в ближайшее время'
     });
     setFormData({ name: '', phone: '', email: '', equipment: '', comment: '', consent: false });
+  };
+
+  const handleQuickSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const phoneDigits = quickFormData.phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 11) {
+      toast({
+        title: 'Ошибка',
+        description: 'Телефон должен содержать 11 цифр',
+        variant: 'destructive'
+      });
+      return;
+    }
+    toast({
+      title: 'Заявка отправлена!',
+      description: `Мы свяжемся с вами по вопросу: ${selectedEquipment}`
+    });
+    setQuickFormData({ name: '', phone: '' });
+    setIsDialogOpen(false);
+  };
+
+  const openQuickForm = (equipmentName: string) => {
+    setSelectedEquipment(equipmentName);
+    setIsDialogOpen(true);
   };
 
   const equipment = [
@@ -130,58 +159,81 @@ const Index = () => {
               <button onClick={() => scrollToSection('promo')} className="hover:text-primary transition-colors">Акция</button>
               <button onClick={() => scrollToSection('contacts')} className="hover:text-primary transition-colors">Контакты</button>
             </nav>
-            <Button onClick={() => scrollToSection('form')}>Получить консультацию</Button>
+            <Button onClick={() => scrollToSection('form')} className="hidden md:inline-flex">Получить консультацию</Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon" className="md:hidden">
+                  <Icon name="Menu" size={24} />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <nav className="flex flex-col gap-6 mt-8">
+                  <button onClick={() => scrollToSection('hero')} className="text-lg hover:text-primary transition-colors text-left">Главная</button>
+                  <button onClick={() => scrollToSection('equipment')} className="text-lg hover:text-primary transition-colors text-left">Оборудование</button>
+                  <button onClick={() => scrollToSection('promo')} className="text-lg hover:text-primary transition-colors text-left">Акция</button>
+                  <button onClick={() => scrollToSection('contacts')} className="text-lg hover:text-primary transition-colors text-left">Контакты</button>
+                  <Button onClick={() => scrollToSection('form')} className="w-full">Получить консультацию</Button>
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>
 
-      <section id="hero" className="pt-32 pb-20 bg-gradient-to-br from-primary/5 via-white to-accent/5">
-        <div className="container mx-auto px-4">
+      <section id="hero" className="pt-32 pb-20 bg-gradient-to-br from-primary/5 via-white to-accent/5 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <img 
+            src="https://cdn.poehali.dev/projects/dc55a807-6efd-43bf-a71c-0f79d937bea4/files/a3746134-7909-48f2-b956-7985c8baada8.jpg"
+            alt="Оборудование"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Акция на оборудование для мясного производства
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-4">
+            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-4">
               До 22.12.2025: скидка 5% от цен с сайта
             </p>
-            <p className="text-lg text-muted-foreground mb-8">
+            <p className="text-base sm:text-lg text-muted-foreground mb-8">
               Оборудование на складе. Доставка за наш счёт.
             </p>
             
-            <div className="flex justify-center gap-4 mb-12">
-              <div className="bg-white rounded-lg p-4 shadow-lg min-w-[80px]">
-                <div className="text-3xl font-bold text-primary">{timeLeft.days}</div>
-                <div className="text-sm text-muted-foreground">дней</div>
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-12">
+              <div className="bg-white rounded-lg p-3 sm:p-4 shadow-lg min-w-[60px] sm:min-w-[80px]">
+                <div className="text-2xl sm:text-3xl font-bold text-primary">{timeLeft.days}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">дней</div>
               </div>
-              <div className="bg-white rounded-lg p-4 shadow-lg min-w-[80px]">
-                <div className="text-3xl font-bold text-primary">{timeLeft.hours}</div>
-                <div className="text-sm text-muted-foreground">часов</div>
+              <div className="bg-white rounded-lg p-3 sm:p-4 shadow-lg min-w-[60px] sm:min-w-[80px]">
+                <div className="text-2xl sm:text-3xl font-bold text-primary">{timeLeft.hours}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">часов</div>
               </div>
-              <div className="bg-white rounded-lg p-4 shadow-lg min-w-[80px]">
-                <div className="text-3xl font-bold text-primary">{timeLeft.minutes}</div>
-                <div className="text-sm text-muted-foreground">минут</div>
+              <div className="bg-white rounded-lg p-3 sm:p-4 shadow-lg min-w-[60px] sm:min-w-[80px]">
+                <div className="text-2xl sm:text-3xl font-bold text-primary">{timeLeft.minutes}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">минут</div>
               </div>
-              <div className="bg-white rounded-lg p-4 shadow-lg min-w-[80px]">
-                <div className="text-3xl font-bold text-primary">{timeLeft.seconds}</div>
-                <div className="text-sm text-muted-foreground">секунд</div>
+              <div className="bg-white rounded-lg p-3 sm:p-4 shadow-lg min-w-[60px] sm:min-w-[80px]">
+                <div className="text-2xl sm:text-3xl font-bold text-primary">{timeLeft.seconds}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">секунд</div>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" onClick={() => scrollToSection('equipment')} className="text-lg px-8">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <Button size="lg" onClick={() => scrollToSection('equipment')} className="text-base sm:text-lg px-6 sm:px-8">
                 Смотреть каталог
               </Button>
-              <Button size="lg" variant="outline" onClick={() => scrollToSection('promo')} className="text-lg px-8">
-                Узнать об акции
+              <Button size="lg" variant="outline" onClick={() => openQuickForm('Общий запрос')} className="text-base sm:text-lg px-6 sm:px-8">
+                Получить предложение
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="promo" className="py-20 bg-secondary text-white">
+      <section id="promo" className="py-12 sm:py-20 bg-secondary text-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Акционные условия</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Акционные условия</h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
             <div className="text-center animate-fade-in">
               <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
@@ -213,22 +265,22 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="equipment" className="py-20">
+      <section id="equipment" className="py-12 sm:py-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Каталог оборудования</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Каталог оборудования</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {equipment.map((item) => (
-              <Card key={item.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                <div className="aspect-video w-full overflow-hidden bg-gray-100">
+              <Card key={item.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                <div className="aspect-square w-full overflow-hidden bg-gray-100">
                   <img 
                     src={item.image} 
                     alt={item.name}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-contain hover:scale-105 transition-transform duration-300 p-4"
                   />
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold mb-4">{item.name}</h3>
-                  <ul className="space-y-2 mb-4">
+                <CardContent className="p-6 flex-grow flex flex-col">
+                  <h3 className="text-lg sm:text-xl font-bold mb-4">{item.name}</h3>
+                  <ul className="space-y-2 mb-4 flex-grow">
                     {item.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-2">
                         <Icon name="Check" size={20} className="text-primary mt-0.5 flex-shrink-0" />
@@ -236,9 +288,9 @@ const Index = () => {
                       </li>
                     ))}
                   </ul>
-                  <Accordion type="single" collapsible>
+                  <Accordion type="single" collapsible className="mb-4">
                     <AccordionItem value="details" className="border-none">
-                      <AccordionTrigger className="text-primary hover:no-underline">
+                      <AccordionTrigger className="text-primary hover:no-underline text-sm sm:text-base">
                         Подробнее о модели
                       </AccordionTrigger>
                       <AccordionContent>
@@ -246,6 +298,9 @@ const Index = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
+                  <Button onClick={() => openQuickForm(item.name)} className="w-full">
+                    Получить предложение
+                  </Button>
                 </CardContent>
               </Card>
             ))}
@@ -253,16 +308,16 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-gradient-to-br from-primary/5 to-accent/5">
+      <section className="py-12 sm:py-20 bg-gradient-to-br from-primary/5 to-accent/5">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Как получить оборудование</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Как получить оборудование</h2>
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8">
               <div className="flex gap-4 animate-fade-in">
-                <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">1</div>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-lg sm:text-xl flex-shrink-0">1</div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Оставьте заявку</h3>
-                  <p className="text-muted-foreground">Заполните форму на консультацию</p>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2">Оставьте заявку</h3>
+                  <p className="text-sm sm:text-base text-muted-foreground">Заполните форму на консультацию</p>
                 </div>
               </div>
               <div className="flex gap-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
@@ -296,10 +351,10 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="form" className="py-20">
+      <section id="form" className="py-12 sm:py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-4">Форма заявки</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4">Форма заявки</h2>
             <p className="text-center text-muted-foreground mb-8">Заполните форму и получите коммерческое предложение со скидкой 5%</p>
             <Card>
               <CardContent className="p-6">
@@ -381,10 +436,10 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-12 bg-secondary text-white">
+      <section className="py-8 sm:py-12 bg-secondary text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold mb-6 text-center">Гарантийное обслуживание и сервис-центры</h3>
+            <h3 className="text-xl sm:text-2xl font-bold mb-6 text-center">Гарантийное обслуживание и сервис-центры</h3>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="flex gap-4">
                 <Icon name="Shield" size={24} className="flex-shrink-0" />
@@ -459,11 +514,49 @@ const Index = () => {
 
       <button
         onClick={() => scrollToSection('promo')}
-        className="fixed bottom-8 right-8 bg-accent hover:bg-accent/90 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 font-semibold transition-all hover:scale-105 z-40"
+        className="fixed bottom-8 right-8 bg-accent hover:bg-accent/90 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg flex items-center gap-2 font-semibold transition-all hover:scale-105 z-40 text-sm sm:text-base"
       >
         <Icon name="BadgePercent" size={20} />
-        Узнать об акции
+        <span className="hidden sm:inline">Узнать об акции</span>
+        <span className="sm:hidden">Акция</span>
       </button>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl sm:text-2xl">Получить предложение</DialogTitle>
+            <p className="text-sm text-muted-foreground mt-2">
+              {selectedEquipment}
+            </p>
+          </DialogHeader>
+          <form onSubmit={handleQuickSubmit} className="space-y-4 mt-4">
+            <div>
+              <Label htmlFor="quick-name">Имя *</Label>
+              <Input
+                id="quick-name"
+                required
+                value={quickFormData.name}
+                onChange={(e) => setQuickFormData({...quickFormData, name: e.target.value})}
+                placeholder="Введите ваше имя"
+              />
+            </div>
+            <div>
+              <Label htmlFor="quick-phone">Телефон * (11 цифр)</Label>
+              <Input
+                id="quick-phone"
+                type="tel"
+                required
+                value={quickFormData.phone}
+                onChange={(e) => setQuickFormData({...quickFormData, phone: e.target.value})}
+                placeholder="+7 (999) 123-45-67"
+              />
+            </div>
+            <Button type="submit" className="w-full">
+              Отправить заявку
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
