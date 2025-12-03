@@ -84,7 +84,7 @@ const Index = () => {
     {
       id: 3,
       name: 'Машина для нарезки DRB-PSD 300',
-      image: 'https://cdn.poehali.dev/projects/dc55a807-6efd-43bf-a71c-0f79d937bea4/files/e7201c7c-3cb5-4f1f-95d1-912198bcf454.jpg',
+      image: 'https://cdn.poehali.dev/files/bf1dd1db-a221-47ce-b8da-93fec6ea53e2.jpg',
       features: ['Нарезка мяса, птицы, рыбы', 'Сенсорный экран', 'Быстрая разборка для мойки', 'Низкий уровень шума'],
       details: 'Универсальная машина для нарезки кубиками и полосками'
     },
