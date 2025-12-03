@@ -105,7 +105,7 @@ const Index = () => {
     {
       id: 6,
       name: 'Шкуросъемная машина DRB-Y270',
-      image: 'https://cdn.poehali.dev/projects/dc55a807-6efd-43bf-a71c-0f79d937bea4/files/bb354159-f362-4158-8ea1-1c94ef9b8065.jpg',
+      image: 'https://cdn.poehali.dev/files/bb38ce8b-08c0-4d72-a531-166aed397797.jpg',
       features: ['Компактная конструкция', 'Регулируемый нож', 'Низкое количество отходов', 'Безопасность оператора'],
       details: 'Настольная шкуросъемная машина для рыбы'
     }
