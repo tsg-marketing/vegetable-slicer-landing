@@ -324,7 +324,7 @@ const Index = () => {
         </div>
       </header>
 
-      <section id="hero" className="pt-32 pb-24 bg-gradient-to-br from-orange-50 via-orange-100 to-yellow-50 relative overflow-hidden">
+      <section id="hero" className="pt-20 pb-12 min-h-screen flex items-center bg-gradient-to-br from-orange-50 via-orange-100 to-yellow-50 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <div className="grid grid-cols-4 gap-2 w-full h-full">
             <img src="https://cdn.poehali.dev/files/bb38ce8b-08c0-4d72-a531-166aed397797.jpg" alt="" className="w-full h-full object-cover" />
@@ -337,33 +337,27 @@ const Index = () => {
             <img src="https://cdn.poehali.dev/files/759f3025-4e29-4751-b054-c0678ea66099.jpg" alt="" className="w-full h-full object-cover" />
           </div>
         </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-5xl mx-auto text-center animate-fade-in">
-            <div className="mb-8 flex justify-center">
-              <img 
-                src="https://cdn.poehali.dev/files/e3490a20-ad92-48a5-83fc-1e6fdc9722dc.jpeg" 
-                alt="DARIBO Food Machinery" 
-                className="h-32 sm:h-40 md:h-48 w-auto"
-              />
-            </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-8 leading-tight">
-              <span className="bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
-                Акция на оборудование <span className="text-[#1e3a8a] bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text">DARIBO</span>
-              </span>
-              <br />
-              <span className="text-gray-800">
-                для мясного производства
-              </span>
-            </h1>
-            <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-600 mb-6">
-              До 22.12.2025: скидка 5% от цен с сайта
-            </p>
-            <p className="text-xl sm:text-2xl text-gray-700 mb-8 font-medium">
-              Оборудование на складе • Доставка за наш счёт
-            </p>
-            
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 sm:p-8 mb-8 max-w-3xl mx-auto shadow-2xl">
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Акция на оборудование:</h3>
+        <div className="container mx-auto px-4 relative z-10 w-full">
+          <div className="grid lg:grid-cols-2 gap-8 items-center max-w-6xl mx-auto">
+            <div className="text-center lg:text-left animate-fade-in">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight">
+                <span className="bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
+                  Акция на оборудование <span className="text-[#1e3a8a] bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text">DARIBO</span>
+                </span>
+                <br />
+                <span className="text-gray-800">
+                  для мясного производства
+                </span>
+              </h1>
+              <p className="text-xl sm:text-2xl md:text-3xl font-bold text-orange-600 mb-3">
+                До 22.12.2025: скидка 5%
+              </p>
+              <p className="text-lg sm:text-xl text-gray-700 mb-6 font-medium">
+                Оборудование на складе • Доставка за наш счёт
+              </p>
+              
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 sm:p-6 mb-6 lg:max-w-xl shadow-2xl">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3">Акция на оборудование:</h3>
               <ul className="grid sm:grid-cols-2 gap-3 text-left">
                 <li className="flex items-start gap-2">
                   <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
@@ -399,30 +393,44 @@ const Index = () => {
                 </li>
               </ul>
             </div>
-            
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-12">
-              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-2xl min-w-[90px] sm:min-w-[120px] border-4 border-orange-500">
-                <div className="text-4xl sm:text-5xl md:text-6xl font-black text-orange-600">{timeLeft.days}</div>
-                <div className="text-base sm:text-lg font-semibold text-gray-600 mt-2">дней</div>
-              </div>
-              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-2xl min-w-[90px] sm:min-w-[120px] border-4 border-orange-500">
-                <div className="text-4xl sm:text-5xl md:text-6xl font-black text-orange-600">{timeLeft.hours}</div>
-                <div className="text-base sm:text-lg font-semibold text-gray-600 mt-2">часов</div>
-              </div>
-              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-2xl min-w-[90px] sm:min-w-[120px] border-4 border-orange-500">
-                <div className="text-4xl sm:text-5xl md:text-6xl font-black text-orange-600">{timeLeft.minutes}</div>
-                <div className="text-base sm:text-lg font-semibold text-gray-600 mt-2">минут</div>
-              </div>
-              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-2xl min-w-[90px] sm:min-w-[120px] border-4 border-orange-500">
-                <div className="text-4xl sm:text-5xl md:text-6xl font-black text-orange-600">{timeLeft.seconds}</div>
-                <div className="text-base sm:text-lg font-semibold text-gray-600 mt-2">секунд</div>
+              
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:justify-start justify-center">
+                <Button size="lg" onClick={() => scrollToSection('equipment')} className="text-lg sm:text-xl px-8 py-5 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
+                  Смотреть каталог
+                </Button>
+                <Button size="lg" variant="outline" onClick={() => scrollToSection('form')} className="text-lg sm:text-xl px-8 py-5 h-auto border-2 border-orange-600 text-orange-600 hover:bg-orange-50 font-bold shadow-xl">
+                  Получить консультацию
+                </Button>
               </div>
             </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
-              <Button size="lg" onClick={() => scrollToSection('equipment')} className="text-xl sm:text-2xl px-10 sm:px-12 py-6 sm:py-8 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
-                Смотреть каталог
-              </Button>
+            
+            <div className="hidden lg:flex justify-center items-center">
+              <img 
+                src="https://cdn.poehali.dev/files/e3490a20-ad92-48a5-83fc-1e6fdc9722dc.jpeg" 
+                alt="DARIBO Food Machinery" 
+                className="w-full max-w-md h-auto rounded-2xl shadow-2xl"
+              />
+            </div>
+          </div>
+          
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-8">
+              <div className="bg-white rounded-xl p-4 sm:p-6 shadow-2xl min-w-[70px] sm:min-w-[90px] border-2 border-orange-500">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-orange-600">{timeLeft.days}</div>
+                <div className="text-sm sm:text-base font-semibold text-gray-600 mt-1">дней</div>
+              </div>
+              <div className="bg-white rounded-xl p-4 sm:p-6 shadow-2xl min-w-[70px] sm:min-w-[90px] border-2 border-orange-500">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-orange-600">{timeLeft.hours}</div>
+                <div className="text-sm sm:text-base font-semibold text-gray-600 mt-1">часов</div>
+              </div>
+              <div className="bg-white rounded-xl p-4 sm:p-6 shadow-2xl min-w-[70px] sm:min-w-[90px] border-2 border-orange-500">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-orange-600">{timeLeft.minutes}</div>
+                <div className="text-sm sm:text-base font-semibold text-gray-600 mt-1">минут</div>
+              </div>
+              <div className="bg-white rounded-xl p-4 sm:p-6 shadow-2xl min-w-[70px] sm:min-w-[90px] border-2 border-orange-500">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-orange-600">{timeLeft.seconds}</div>
+                <div className="text-sm sm:text-base font-semibold text-gray-600 mt-1">секунд</div>
+              </div>
+            </div>
               <Button size="lg" variant="outline" onClick={() => openQuickForm('Общий запрос')} className="text-xl sm:text-2xl px-10 sm:px-12 py-6 sm:py-8 h-auto border-4 border-orange-600 text-orange-600 hover:bg-orange-50 font-bold shadow-xl">
                 Получить предложение
               </Button>
