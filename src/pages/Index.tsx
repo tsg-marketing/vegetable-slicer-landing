@@ -338,26 +338,37 @@ const Index = () => {
           </div>
         </div>
         <div className="container mx-auto px-4 relative z-10 w-full">
-          <div className="grid lg:grid-cols-2 gap-8 items-center max-w-6xl mx-auto">
-            <div className="text-center lg:text-left animate-fade-in">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight">
-                <span className="bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
-                  Акция на оборудование <span className="text-[#1e3a8a] bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text">DARIBO</span>
-                </span>
-                <br />
-                <span className="text-gray-800">
-                  для мясного производства
-                </span>
-              </h1>
-              <p className="text-xl sm:text-2xl md:text-3xl font-bold text-orange-600 mb-3">
-                До 22.12.2025: скидка 5%
-              </p>
-              <p className="text-lg sm:text-xl text-gray-700 mb-6 font-medium">
-                Оборудование на складе • Доставка за наш счёт
-              </p>
-              
-              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 sm:p-6 mb-6 lg:max-w-xl shadow-2xl">
-                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3">Акция на оборудование:</h3>
+          <div className="max-w-6xl mx-auto text-center animate-fade-in">
+            <div className="flex justify-center items-center gap-4 mb-6">
+              <div className="flex-1 max-w-2xl">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight">
+                  <span className="bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
+                    Акция на оборудование <span className="text-[#1e3a8a] bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text">DARIBO</span>
+                  </span>
+                  <br />
+                  <span className="text-gray-800">
+                    для мясного производства
+                  </span>
+                </h1>
+              </div>
+              <div className="hidden lg:block">
+                <img 
+                  src="https://cdn.poehali.dev/files/e3490a20-ad92-48a5-83fc-1e6fdc9722dc.jpeg" 
+                  alt="DARIBO" 
+                  className="h-24 w-auto"
+                />
+              </div>
+            </div>
+            
+            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-orange-600 mb-3">
+              До 22.12.2025: скидка 5%
+            </p>
+            <p className="text-lg sm:text-xl text-gray-700 mb-6 font-medium">
+              Оборудование на складе • Доставка за наш счёт
+            </p>
+            
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 sm:p-6 mb-6 max-w-4xl mx-auto shadow-2xl">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3">Акция на оборудование:</h3>
               <ul className="grid sm:grid-cols-2 gap-3 text-left">
                 <li className="flex items-start gap-2">
                   <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
@@ -393,23 +404,14 @@ const Index = () => {
                 </li>
               </ul>
             </div>
-              
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:justify-start justify-center">
-                <Button size="lg" onClick={() => scrollToSection('equipment')} className="text-lg sm:text-xl px-8 py-5 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
-                  Смотреть каталог
-                </Button>
-                <Button size="lg" variant="outline" onClick={() => scrollToSection('form')} className="text-lg sm:text-xl px-8 py-5 h-auto border-2 border-orange-600 text-orange-600 hover:bg-orange-50 font-bold shadow-xl">
-                  Получить консультацию
-                </Button>
-              </div>
-            </div>
             
-            <div className="hidden lg:flex justify-center items-center">
-              <img 
-                src="https://cdn.poehali.dev/files/e3490a20-ad92-48a5-83fc-1e6fdc9722dc.jpeg" 
-                alt="DARIBO Food Machinery" 
-                className="w-full max-w-md h-auto rounded-2xl shadow-2xl"
-              />
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <Button size="lg" onClick={() => scrollToSection('equipment')} className="text-lg sm:text-xl px-8 py-5 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
+                Смотреть каталог
+              </Button>
+              <Button size="lg" variant="outline" onClick={() => scrollToSection('form')} className="text-lg sm:text-xl px-8 py-5 h-auto border-2 border-orange-600 text-orange-600 hover:bg-orange-50 font-bold shadow-xl">
+                Получить консультацию
+              </Button>
             </div>
           </div>
           
