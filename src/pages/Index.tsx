@@ -339,9 +339,16 @@ const Index = () => {
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto text-center animate-fade-in">
+            <div className="mb-8 flex justify-center">
+              <img 
+                src="https://cdn.poehali.dev/files/e3490a20-ad92-48a5-83fc-1e6fdc9722dc.jpeg" 
+                alt="DARIBO Food Machinery" 
+                className="h-32 sm:h-40 md:h-48 w-auto"
+              />
+            </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-8 leading-tight">
               <span className="bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
-                Акция на оборудование
+                Акция на оборудование <span className="text-[#1e3a8a] bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text">DARIBO</span>
               </span>
               <br />
               <span className="text-gray-800">
