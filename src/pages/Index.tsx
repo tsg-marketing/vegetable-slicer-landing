@@ -82,7 +82,7 @@ const Index = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const phoneDigits = formData.phone.replace(/\D/g, '');
     if (phoneDigits.length !== 11) {
@@ -101,14 +101,39 @@ const Index = () => {
       });
       return;
     }
-    toast({
-      title: 'Заявка отправлена!',
-      description: 'Мы свяжемся с вами в ближайшее время'
-    });
-    setFormData({ name: '', phone: '+7', email: '', equipment: '', comment: '', consent: false });
+
+    try {
+      const response = await fetch('/api/b24-send-lead.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          equipment: formData.equipment,
+          comment: formData.comment,
+          form_type: 'main_form',
+          timestamp: new Date().toISOString()
+        })
+      });
+
+      if (!response.ok) throw new Error('Network error');
+
+      toast({
+        title: 'Заявка отправлена!',
+        description: 'Мы свяжемся с вами в ближайшее время'
+      });
+      setFormData({ name: '', phone: '+7', email: '', equipment: '', comment: '', consent: false });
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось отправить заявку. Попробуйте позже.',
+        variant: 'destructive'
+      });
+    }
   };
 
-  const handleQuickSubmit = (e: React.FormEvent) => {
+  const handleQuickSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const phoneDigits = quickFormData.phone.replace(/\D/g, '');
     if (phoneDigits.length !== 11) {
@@ -119,12 +144,36 @@ const Index = () => {
       });
       return;
     }
-    toast({
-      title: 'Заявка отправлена!',
-      description: `Мы свяжемся с вами по вопросу: ${selectedEquipment}`
-    });
-    setQuickFormData({ name: '', phone: '+7' });
-    setIsDialogOpen(false);
+
+    try {
+      const response = await fetch('/api/b24-send-lead.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: quickFormData.name,
+          phone: quickFormData.phone,
+          equipment: selectedEquipment,
+          equipment_image: selectedEquipmentImage,
+          form_type: 'quick_form',
+          timestamp: new Date().toISOString()
+        })
+      });
+
+      if (!response.ok) throw new Error('Network error');
+
+      toast({
+        title: 'Заявка отправлена!',
+        description: `Мы свяжемся с вами по вопросу: ${selectedEquipment}`
+      });
+      setQuickFormData({ name: '', phone: '+7' });
+      setIsDialogOpen(false);
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось отправить заявку. Попробуйте позже.',
+        variant: 'destructive'
+      });
+    }
   };
 
   const openQuickForm = (equipmentName: string, equipmentImage?: string) => {
