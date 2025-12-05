@@ -430,11 +430,6 @@ const Index = () => {
                 <div className="text-3xl sm:text-4xl md:text-5xl font-black text-orange-600">{timeLeft.seconds}</div>
                 <div className="text-sm sm:text-base font-semibold text-gray-600 mt-1">секунд</div>
               </div>
-            </div>
-              <Button size="lg" variant="outline" onClick={() => openQuickForm('Общий запрос')} className="text-xl sm:text-2xl px-10 sm:px-12 py-6 sm:py-8 h-auto border-4 border-orange-600 text-orange-600 hover:bg-orange-50 font-bold shadow-xl">
-                Получить предложение
-              </Button>
-            </div>
           </div>
         </div>
       </section>
