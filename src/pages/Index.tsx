@@ -772,35 +772,36 @@ const Index = () => {
       </button>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md max-w-[85vw]">
           <DialogHeader>
-            <DialogTitle className="text-xl sm:text-2xl">Получить предложение</DialogTitle>
-            <p className="text-lg sm:text-xl font-semibold mt-2 text-gray-800">
+            <DialogTitle className="text-base sm:text-xl pr-6">Получить предложение</DialogTitle>
+            <p className="text-sm sm:text-lg font-semibold mt-2 text-gray-800 pr-6">
               {selectedEquipment}
             </p>
           </DialogHeader>
           {selectedEquipmentImage && (
-            <div className="w-full aspect-square overflow-hidden bg-gray-100 rounded-lg">
+            <div className="w-full aspect-square overflow-hidden bg-gray-100 rounded-lg max-h-[30vh] sm:max-h-none">
               <img 
                 src={selectedEquipmentImage} 
                 alt={selectedEquipment}
-                className="w-full h-full object-contain p-4"
+                className="w-full h-full object-contain p-2 sm:p-4"
               />
             </div>
           )}
-          <form onSubmit={handleQuickSubmit} className="space-y-4">
+          <form onSubmit={handleQuickSubmit} className="space-y-3 sm:space-y-4">
             <div>
-              <Label htmlFor="quick-name">Имя *</Label>
+              <Label htmlFor="quick-name" className="text-sm sm:text-base">Имя *</Label>
               <Input
                 id="quick-name"
                 required
                 value={quickFormData.name}
                 onChange={(e) => setQuickFormData({...quickFormData, name: e.target.value})}
                 placeholder="Введите ваше имя"
+                className="text-sm sm:text-base h-9 sm:h-10"
               />
             </div>
-            <div className="mb-6">
-              <Label htmlFor="quick-phone">Телефон * (11 цифр)</Label>
+            <div>
+              <Label htmlFor="quick-phone" className="text-sm sm:text-base">Телефон * (11 цифр)</Label>
               <Input
                 id="quick-phone"
                 type="tel"
@@ -809,9 +810,10 @@ const Index = () => {
                 onChange={(e) => handlePhoneChange(e.target.value, true)}
                 placeholder="+7 (999) 123-45-67"
                 maxLength={12}
+                className="text-sm sm:text-base h-9 sm:h-10"
               />
             </div>
-            <Button type="submit" className="w-full text-base py-4 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
+            <Button type="submit" className="w-full text-sm sm:text-base py-3 sm:py-4 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
               Получить предложение со скидкой
             </Button>
           </form>
