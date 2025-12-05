@@ -326,11 +326,16 @@ const Index = () => {
 
       <section id="hero" className="pt-32 pb-24 bg-gradient-to-br from-orange-50 via-orange-100 to-yellow-50 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-          <img 
-            src="https://cdn.poehali.dev/projects/dc55a807-6efd-43bf-a71c-0f79d937bea4/files/a3746134-7909-48f2-b956-7985c8baada8.jpg"
-            alt="Оборудование"
-            className="w-full h-full object-cover"
-          />
+          <div className="grid grid-cols-4 gap-2 w-full h-full">
+            <img src="https://cdn.poehali.dev/files/bb38ce8b-08c0-4d72-a531-166aed397797.jpg" alt="" className="w-full h-full object-cover" />
+            <img src="https://cdn.poehali.dev/files/96e1e993-be6d-4de8-8cbf-e5ca559b9ee1.png" alt="" className="w-full h-full object-cover" />
+            <img src="https://cdn.poehali.dev/files/fc17b83b-6f2d-402e-86f5-628e9fa2c4b6.png" alt="" className="w-full h-full object-cover" />
+            <img src="https://cdn.poehali.dev/files/a109eda6-fca3-4cf3-83a4-1c19d9f26844.png" alt="" className="w-full h-full object-cover" />
+            <img src="https://cdn.poehali.dev/files/15be6eaa-7b1e-448b-a613-d0cd4fc3ca42.png" alt="" className="w-full h-full object-cover" />
+            <img src="https://cdn.poehali.dev/files/78b128f8-ca45-4c1c-9d7f-02b1f0894aee.jpg" alt="" className="w-full h-full object-cover" />
+            <img src="https://cdn.poehali.dev/files/bf1dd1db-a221-47ce-b8da-93fec6ea53e2.jpg" alt="" className="w-full h-full object-cover" />
+            <img src="https://cdn.poehali.dev/files/759f3025-4e29-4751-b054-c0678ea66099.jpg" alt="" className="w-full h-full object-cover" />
+          </div>
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto text-center animate-fade-in">
@@ -355,23 +360,7 @@ const Index = () => {
               <ul className="grid sm:grid-cols-2 gap-3 text-left">
                 <li className="flex items-start gap-2">
                   <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Вакуумный шприц GZY2000</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Вакуумный массажер GRZK500</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Машина для нарезки DRB-PSD 300</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Блокорезка DRB-PR 3000</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Овощерезка DRB-108S</span>
+                  <span className="text-base sm:text-lg">Автоматический слайсер DRB-120</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
@@ -379,11 +368,27 @@ const Index = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Клипсатор DKJU-200</span>
+                  <span className="text-base sm:text-lg">Волчок для мяса DRB-JR 120</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
+                  <span className="text-base sm:text-lg">Овощерезка DRB-108S</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
+                  <span className="text-base sm:text-lg">Шпигорезка DRB-R350</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
                   <span className="text-base sm:text-lg">Инъектор DRB-ZS50</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
+                  <span className="text-base sm:text-lg">Блокорезка DRB-PR 3000</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
+                  <span className="text-base sm:text-lg">Профессиональный слайсер DRB-21K-C</span>
                 </li>
               </ul>
             </div>
@@ -488,7 +493,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Каталог оборудования</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {equipment.map((item) => (
+            {[...equipment].sort((a, b) => a.price - b.price).map((item) => (
               <Card key={item.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
                 <div className="aspect-square w-full overflow-hidden bg-gray-100 relative">
                   {item.price > 0 && (
