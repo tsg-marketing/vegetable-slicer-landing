@@ -512,10 +512,10 @@ const Index = () => {
                   {item.price > 0 && (
                     <div className="mb-4">
                       <div className="flex items-baseline gap-3">
-                        <span className="text-3xl font-bold text-orange-600">{(item.price * 0.95).toLocaleString('ru-RU')} ₽</span>
-                        <span className="text-lg text-gray-400 line-through">{item.price.toLocaleString('ru-RU')} ₽</span>
+                        <span className="text-3xl font-bold text-orange-600">{Math.round(item.price * 0.95).toLocaleString('ru-RU')} ₽</span>
+                        <span className="text-lg text-gray-400 line-through">{Math.round(item.price).toLocaleString('ru-RU')} ₽</span>
                       </div>
-                      <p className="text-sm text-green-600 font-semibold mt-1">Экономия: {(item.price * 0.05).toLocaleString('ru-RU')} ₽</p>
+                      <p className="text-sm text-green-600 font-semibold mt-1">Экономия: {Math.round(item.price * 0.05).toLocaleString('ru-RU')} ₽</p>
                     </div>
                   )}
                   <ul className="space-y-3 mb-6 flex-grow">
