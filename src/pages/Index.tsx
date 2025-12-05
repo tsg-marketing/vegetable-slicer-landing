@@ -45,10 +45,20 @@ const Index = () => {
       }
     }, 1000);
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const expiryDate = new Date();
+    expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+
+    const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+    utmParams.forEach(param => {
+      const value = urlParams.get(param);
+      if (value) {
+        document.cookie = `${param}=${encodeURIComponent(value)}; expires=${expiryDate.toUTCString()}; path=/`;
+      }
+    });
+
     const visitCookie = document.cookie.split('; ').find(row => row.startsWith('visited='));
     if (!visitCookie) {
-      const expiryDate = new Date();
-      expiryDate.setFullYear(expiryDate.getFullYear() + 1);
       document.cookie = `visited=true; expires=${expiryDate.toUTCString()}; path=/`;
       document.cookie = `first_visit=${new Date().toISOString()}; expires=${expiryDate.toUTCString()}; path=/`;
     }
