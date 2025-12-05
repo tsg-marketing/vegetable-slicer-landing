@@ -307,29 +307,44 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <img src="https://cdn.poehali.dev/files/360a80ca-f911-4f02-94ff-c2728b707994.jpg" alt="ТехноСиб" className="h-8 sm:h-10" />
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-6">
               <button onClick={() => scrollToSection('hero')} className="text-lg font-semibold hover:text-primary transition-colors">Главная</button>
               <button onClick={() => scrollToSection('equipment')} className="text-lg font-semibold hover:text-primary transition-colors">Оборудование</button>
               <button onClick={() => scrollToSection('promo')} className="text-lg font-semibold hover:text-primary transition-colors">Акция</button>
               <button onClick={() => scrollToSection('contacts')} className="text-lg font-semibold hover:text-primary transition-colors">Контакты</button>
             </nav>
-            <Button onClick={() => scrollToSection('form')} className="hidden md:inline-flex text-base font-semibold">Получить консультацию</Button>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="md:hidden">
-                  <Icon name="Menu" size={24} />
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <nav className="flex flex-col gap-6 mt-8">
-                  <button onClick={() => scrollToSection('hero')} className="text-lg hover:text-primary transition-colors text-left">Главная</button>
-                  <button onClick={() => scrollToSection('equipment')} className="text-lg hover:text-primary transition-colors text-left">Оборудование</button>
-                  <button onClick={() => scrollToSection('promo')} className="text-lg hover:text-primary transition-colors text-left">Акция</button>
-                  <button onClick={() => scrollToSection('contacts')} className="text-lg hover:text-primary transition-colors text-left">Контакты</button>
-                  <Button onClick={() => scrollToSection('form')} className="w-full">Получить консультацию</Button>
-                </nav>
-              </SheetContent>
-            </Sheet>
+            <div className="hidden md:flex items-center gap-4">
+              <a href="tel:88005110977" className="flex items-center gap-2 text-lg font-bold text-primary hover:text-primary/80 transition-colors">
+                <Icon name="Phone" size={20} />
+                <span className="hidden lg:inline">8-800-511-09-77</span>
+              </a>
+              <Button onClick={() => scrollToSection('form')} className="text-base font-semibold">Получить консультацию</Button>
+            </div>
+            <div className="flex items-center gap-3 md:hidden">
+              <a href="tel:88005110977" className="text-primary">
+                <Icon name="Phone" size={24} />
+              </a>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Icon name="Menu" size={24} />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <nav className="flex flex-col gap-6 mt-8">
+                    <a href="tel:88005110977" className="flex items-center gap-2 text-xl font-bold text-primary">
+                      <Icon name="Phone" size={24} />
+                      8-800-511-09-77
+                    </a>
+                    <button onClick={() => scrollToSection('hero')} className="text-lg hover:text-primary transition-colors text-left">Главная</button>
+                    <button onClick={() => scrollToSection('equipment')} className="text-lg hover:text-primary transition-colors text-left">Оборудование</button>
+                    <button onClick={() => scrollToSection('promo')} className="text-lg hover:text-primary transition-colors text-left">Акция</button>
+                    <button onClick={() => scrollToSection('contacts')} className="text-lg hover:text-primary transition-colors text-left">Контакты</button>
+                    <Button onClick={() => scrollToSection('form')} className="w-full">Получить консультацию</Button>
+                  </nav>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </header>
@@ -732,8 +747,8 @@ const Index = () => {
                 <Icon name="Phone" size={20} />
                 Телефон
               </h4>
-              <a href="tel:88005337522" className="text-white/90 hover:text-white transition-colors">
-                8-800-533-75-22
+              <a href="tel:88005110977" className="text-white/90 hover:text-white transition-colors">
+                8-800-511-09-77
               </a>
             </div>
             <div>
