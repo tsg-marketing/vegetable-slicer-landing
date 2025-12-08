@@ -756,8 +756,8 @@ const Index = () => {
                 <Icon name="Mail" size={20} />
                 Email
               </h4>
-              <a href="mailto:info4@t-sib.ru" className="text-white/90 hover:text-white transition-colors">
-                info4@t-sib.ru
+              <a href="mailto:promo_dec2025@t-sib.ru" className="text-white/90 hover:text-white transition-colors">
+                promo_dec2025@t-sib.ru
               </a>
             </div>
             <div>
