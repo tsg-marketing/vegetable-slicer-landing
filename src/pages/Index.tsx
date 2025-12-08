@@ -688,7 +688,14 @@ const Index = () => {
                       onCheckedChange={(checked) => setFormData({...formData, consent: checked as boolean})}
                     />
                     <Label htmlFor="consent" className="text-sm leading-relaxed cursor-pointer">
-                      Согласен на обработку персональных данных
+                      Отправляя форму, я соглашаюсь с{' '}
+                      <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80">
+                        политикой обработки персональных данных
+                      </a>
+                      {' '}и даю{' '}
+                      <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80">
+                        согласие на обработку персональных данных
+                      </a>
                     </Label>
                   </div>
                   <Button type="submit" size="lg" className="w-full text-2xl py-8 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
@@ -827,6 +834,16 @@ const Index = () => {
                 maxLength={12}
                 className="text-sm sm:text-base h-9 sm:h-10"
               />
+            </div>
+            <div className="text-xs text-muted-foreground">
+              Отправляя форму, я соглашаюсь с{' '}
+              <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80">
+                политикой обработки персональных данных
+              </a>
+              {' '}и даю{' '}
+              <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80">
+                согласие на обработку персональных данных
+              </a>
             </div>
             <Button type="submit" className="w-full text-sm sm:text-base py-3 sm:py-4 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
               Получить предложение со скидкой
