@@ -29,7 +29,7 @@ const Index = () => {
   const [selectedEquipmentImage, setSelectedEquipmentImage] = useState('');
 
   useEffect(() => {
-    const targetDate = new Date('2025-12-22T23:59:59');
+    const targetDate = new Date('2025-12-26T23:59:59');
     
     const timer = setInterval(() => {
       const now = new Date();
@@ -375,7 +375,7 @@ const Index = () => {
             </h1>
             
             <p className="text-xl sm:text-2xl md:text-3xl font-bold text-orange-600 mb-3">
-              До 22.12.2025: скидка 5%
+              До 26.12.2025: скидка 5%
             </p>
             <p className="text-lg sm:text-xl text-gray-700 mb-6 font-medium">
               Оборудование на складе • Доставка за наш счёт
@@ -594,7 +594,7 @@ const Index = () => {
               <div className="flex gap-4 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                 <div className="w-12 h-12 bg-accent text-white rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">3</div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Оплатите до 22.12.2025</h3>
+                  <h3 className="text-xl font-semibold mb-2">Оплатите до 26.12.2025</h3>
                   <p className="text-muted-foreground">И получите скидку 5%</p>
                 </div>
               </div>
