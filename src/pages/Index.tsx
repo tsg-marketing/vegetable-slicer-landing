@@ -498,7 +498,7 @@ const Index = () => {
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold mb-3">Бесплатная доставка*</h3>
               <p className="text-lg sm:text-xl text-white/90">До вашего производства</p>
-              <p className="text-sm text-white/70 mt-2">* по территории г.Москва, Московской и Новосибирской областей</p>
+              <p className="text-sm text-white/70 mt-2">*в 30 городов России. Подробности уточняйте у менеджера</p>
             </div>
             <div className="text-center animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <div className="w-20 h-20 sm:w-24 sm:h-24 bg-accent rounded-full flex items-center justify-center mx-auto mb-6">
@@ -604,7 +604,7 @@ const Index = () => {
                 <div>
                   <h3 className="text-xl font-semibold mb-2">Бесплатная доставка*</h3>
                   <p className="text-muted-foreground">До вашего производства</p>
-                  <p className="text-sm text-muted-foreground mt-1">* по территории г.Москва, Московской и Новосибирской областей</p>
+                  <p className="text-sm text-muted-foreground mt-1">*в 30 городов России. Подробности уточняйте у менеджера</p>
                 </div>
               </div>
             </div>
