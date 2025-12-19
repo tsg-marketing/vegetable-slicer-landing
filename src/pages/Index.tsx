@@ -602,8 +602,9 @@ const Index = () => {
               <div className="flex gap-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
                 <div className="w-12 h-12 bg-accent text-white rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">4</div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Бесплатная доставка</h3>
+                  <h3 className="text-xl font-semibold mb-2">Бесплатная доставка*</h3>
                   <p className="text-muted-foreground">До вашего производства</p>
+                  <p className="text-sm text-muted-foreground mt-1">* по территории г.Москва, Московской и Новосибирской областей</p>
                 </div>
               </div>
             </div>
