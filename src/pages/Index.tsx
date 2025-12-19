@@ -378,7 +378,7 @@ const Index = () => {
               До 26.12.2025: скидка 5%
             </p>
             <p className="text-lg sm:text-xl text-gray-700 mb-6 font-medium">
-              Оборудование на складе • Доставка за наш счёт
+              Оборудование на складе
             </p>
             
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 sm:p-6 mb-6 max-w-4xl mx-auto shadow-2xl">
