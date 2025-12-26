@@ -14,7 +14,6 @@ import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
   const { toast } = useToast();
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [formData, setFormData] = useState({
     name: '',
     phone: '+7',
@@ -29,22 +28,6 @@ const Index = () => {
   const [selectedEquipmentImage, setSelectedEquipmentImage] = useState('');
 
   useEffect(() => {
-    const targetDate = new Date('2025-12-26T23:59:59');
-    
-    const timer = setInterval(() => {
-      const now = new Date();
-      const difference = targetDate.getTime() - now.getTime();
-      
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60)
-        });
-      }
-    }, 1000);
-
     const urlParams = new URLSearchParams(window.location.search);
     const expiryDate = new Date();
     expiryDate.setFullYear(expiryDate.getFullYear() + 1);
@@ -65,8 +48,6 @@ const Index = () => {
     const visitCount = parseInt(localStorage.getItem('visit_count') || '0') + 1;
     localStorage.setItem('visit_count', visitCount.toString());
     localStorage.setItem('last_visit', new Date().toISOString());
-
-    return () => clearInterval(timer);
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -375,7 +356,7 @@ const Index = () => {
             </h1>
             
             <p className="text-xl sm:text-2xl md:text-3xl font-bold text-orange-600 mb-3">
-              До 26.12.2025: скидка 5%
+              Скидка 5% от розничной цены
             </p>
             <p className="text-lg sm:text-xl text-gray-700 mb-6 font-medium">
               Оборудование на складе
@@ -427,25 +408,6 @@ const Index = () => {
                 Получить консультацию
               </Button>
             </div>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-8">
-              <div className="bg-white rounded-xl p-4 sm:p-6 shadow-2xl min-w-[70px] sm:min-w-[90px] border-2 border-orange-500">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-orange-600">{timeLeft.days}</div>
-                <div className="text-sm sm:text-base font-semibold text-gray-600 mt-1">дней</div>
-              </div>
-              <div className="bg-white rounded-xl p-4 sm:p-6 shadow-2xl min-w-[70px] sm:min-w-[90px] border-2 border-orange-500">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-orange-600">{timeLeft.hours}</div>
-                <div className="text-sm sm:text-base font-semibold text-gray-600 mt-1">часов</div>
-              </div>
-              <div className="bg-white rounded-xl p-4 sm:p-6 shadow-2xl min-w-[70px] sm:min-w-[90px] border-2 border-orange-500">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-orange-600">{timeLeft.minutes}</div>
-                <div className="text-sm sm:text-base font-semibold text-gray-600 mt-1">минут</div>
-              </div>
-              <div className="bg-white rounded-xl p-4 sm:p-6 shadow-2xl min-w-[70px] sm:min-w-[90px] border-2 border-orange-500">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-orange-600">{timeLeft.seconds}</div>
-                <div className="text-sm sm:text-base font-semibold text-gray-600 mt-1">секунд</div>
-              </div>
           </div>
         </div>
       </section>
