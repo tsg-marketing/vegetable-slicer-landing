@@ -28,6 +28,8 @@ export type Product = {
   available: boolean;
   pictures: string[];
   params: ProductParam[];
+  category_id?: string;
+  category_name?: string;
 };
 
 type Props = {

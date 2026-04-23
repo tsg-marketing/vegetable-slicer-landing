@@ -1,7 +1,7 @@
 """
-Business: Отдаёт каталог товаров Daribo из БД для фронта.
+Business: Отдаёт каталог товаров Daribo из БД для фронта с категориями.
 Args: event - dict с httpMethod, queryStringParameters; context - объект с request_id
-Returns: HTTP response с массивом товаров
+Returns: HTTP response с массивом товаров и категорий
 """
 import json
 import os
@@ -12,7 +12,7 @@ import psycopg2
 
 def handler(event: dict, context) -> dict:
     '''
-    Возвращает список товаров Daribo. Параметр id — для одного товара.
+    Возвращает список товаров Daribo и их категории. Параметр id — для одного товара.
     '''
     method = event.get('httpMethod', 'GET')
 
@@ -36,7 +36,7 @@ def handler(event: dict, context) -> dict:
         if offer_id:
             safe_id = offer_id.replace("'", "''")
             cur.execute(f"""
-                SELECT offer_id, name, url, price, description, brand, available, pictures, params, updated_at
+                SELECT offer_id, name, url, price, description, brand, available, pictures, params, updated_at, category_id, category_name
                 FROM daribo_products WHERE offer_id = '{safe_id}' LIMIT 1
             """)
             row = cur.fetchone()
@@ -56,14 +56,24 @@ def handler(event: dict, context) -> dict:
             }
 
         cur.execute("""
-            SELECT offer_id, name, url, price, description, brand, available, pictures, params, updated_at
+            SELECT offer_id, name, url, price, description, brand, available, pictures, params, updated_at, category_id, category_name
             FROM daribo_products ORDER BY available DESC, name ASC
         """)
         items = [_row_to_dict(r) for r in cur.fetchall()]
+
+        cur.execute("""
+            SELECT DISTINCT p.category_id, COALESCE(c.name, p.category_name) AS cname
+            FROM daribo_products p
+            LEFT JOIN daribo_categories c ON c.category_id = p.category_id
+            WHERE p.category_id IS NOT NULL AND p.category_id <> ''
+            ORDER BY cname
+        """)
+        categories = [{'category_id': r[0], 'name': r[1] or ''} for r in cur.fetchall()]
+
         return {
             'statusCode': 200,
             'headers': {**cors_headers, 'Content-Type': 'application/json'},
-            'body': json.dumps({'items': items}, ensure_ascii=False),
+            'body': json.dumps({'items': items, 'categories': categories}, ensure_ascii=False),
             'isBase64Encoded': False,
         }
     finally:
@@ -83,4 +93,6 @@ def _row_to_dict(row: tuple) -> dict[str, Any]:
         'pictures': row[7] or [],
         'params': row[8] or [],
         'updated_at': row[9].isoformat() if row[9] else None,
+        'category_id': row[10] or '',
+        'category_name': row[11] or '',
     }

@@ -21,14 +21,27 @@ def fetch_feed() -> bytes:
         return resp.read()
 
 
-def parse_offers(xml_bytes: bytes) -> list[dict[str, Any]]:
+def parse_feed(xml_bytes: bytes):
     root = ET.fromstring(xml_bytes)
     shop = root.find('shop') if root.tag != 'shop' else root
     if shop is None:
-        return []
+        return [], {}
+
+    categories: dict[str, dict[str, str]] = {}
+    cats_node = shop.find('categories')
+    if cats_node is not None:
+        for c in cats_node.findall('category'):
+            cid = (c.get('id') or '').strip()
+            if not cid:
+                continue
+            categories[cid] = {
+                'name': (c.text or '').strip(),
+                'parent_id': (c.get('parentId') or '').strip(),
+            }
+
     offers_node = shop.find('offers')
     if offers_node is None:
-        return []
+        return [], categories
 
     result: list[dict[str, Any]] = []
     for offer in offers_node.findall('offer'):
@@ -76,6 +89,8 @@ def parse_offers(xml_bytes: bytes) -> list[dict[str, Any]]:
             price = 0
         description = offer.findtext('description', default='').strip()
         available = (offer.get('available', 'true').lower() == 'true')
+        category_id = offer.findtext('categoryId', default='').strip()
+        category_name = categories.get(category_id, {}).get('name', '') if category_id else ''
 
         result.append({
             'offer_id': offer_id,
@@ -87,16 +102,34 @@ def parse_offers(xml_bytes: bytes) -> list[dict[str, Any]]:
             'available': available,
             'pictures': pictures,
             'params': params_list,
+            'category_id': category_id,
+            'category_name': category_name,
         })
-    return result
+    return result, categories
 
 
-def sync_to_db(offers: list[dict[str, Any]]) -> int:
+def sync_to_db(offers: list[dict[str, Any]], categories: dict[str, dict[str, str]]) -> int:
     dsn = os.environ['DATABASE_URL']
     conn = psycopg2.connect(dsn)
     conn.autocommit = True
     cur = conn.cursor()
     try:
+        used_cat_ids = {o['category_id'] for o in offers if o.get('category_id')}
+        for cid in used_cat_ids:
+            info = categories.get(cid, {})
+            cname = (info.get('name') or '').replace("'", "''")
+            parent = (info.get('parent_id') or '').replace("'", "''")
+            safe_cid = cid.replace("'", "''")
+            parent_sql = f"'{parent}'" if parent else 'NULL'
+            cur.execute(f"""
+                INSERT INTO daribo_categories (category_id, name, parent_id, updated_at)
+                VALUES ('{safe_cid}', '{cname}', {parent_sql}, NOW())
+                ON CONFLICT (category_id) DO UPDATE SET
+                    name = EXCLUDED.name,
+                    parent_id = EXCLUDED.parent_id,
+                    updated_at = NOW()
+            """)
+
         existing_ids = [o['offer_id'] for o in offers if o['offer_id']]
         for o in offers:
             offer_id = o['offer_id'].replace("'", "''")
@@ -108,10 +141,12 @@ def sync_to_db(offers: list[dict[str, Any]]) -> int:
             params_json = json.dumps(o['params'], ensure_ascii=False).replace("'", "''")
             price = o['price']
             available = 'TRUE' if o['available'] else 'FALSE'
+            category_id = o.get('category_id', '').replace("'", "''")
+            category_name = o.get('category_name', '').replace("'", "''")
 
             cur.execute(f"""
-                INSERT INTO daribo_products (offer_id, name, url, price, description, brand, available, pictures, params, updated_at)
-                VALUES ('{offer_id}', '{name}', '{url}', {price}, '{description}', '{brand}', {available}, '{pictures_json}'::jsonb, '{params_json}'::jsonb, NOW())
+                INSERT INTO daribo_products (offer_id, name, url, price, description, brand, available, pictures, params, category_id, category_name, updated_at)
+                VALUES ('{offer_id}', '{name}', '{url}', {price}, '{description}', '{brand}', {available}, '{pictures_json}'::jsonb, '{params_json}'::jsonb, '{category_id}', '{category_name}', NOW())
                 ON CONFLICT (offer_id) DO UPDATE SET
                     name = EXCLUDED.name,
                     url = EXCLUDED.url,
@@ -121,6 +156,8 @@ def sync_to_db(offers: list[dict[str, Any]]) -> int:
                     available = EXCLUDED.available,
                     pictures = EXCLUDED.pictures,
                     params = EXCLUDED.params,
+                    category_id = EXCLUDED.category_id,
+                    category_name = EXCLUDED.category_name,
                     updated_at = NOW()
             """)
 
@@ -153,8 +190,8 @@ def handler(event: dict, context) -> dict:
 
     try:
         xml_bytes = fetch_feed()
-        offers = parse_offers(xml_bytes)
-        count = sync_to_db(offers)
+        offers, categories = parse_feed(xml_bytes)
+        count = sync_to_db(offers, categories)
         return {
             'statusCode': 200,
             'headers': {**cors_headers, 'Content-Type': 'application/json'},

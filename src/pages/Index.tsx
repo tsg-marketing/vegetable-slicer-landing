@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
@@ -28,6 +29,8 @@ const Index = () => {
   const [selectedEquipment, setSelectedEquipment] = useState('');
   const [selectedEquipmentImage, setSelectedEquipmentImage] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<{ category_id: string; name: string }[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string>('all');
   const [loadingProducts, setLoadingProducts] = useState(true);
 
   useEffect(() => {
@@ -56,8 +59,12 @@ const Index = () => {
       .then((r) => r.json())
       .then((data) => {
         setProducts(Array.isArray(data.items) ? data.items : []);
+        setCategories(Array.isArray(data.categories) ? data.categories : []);
       })
-      .catch(() => setProducts([]))
+      .catch(() => {
+        setProducts([]);
+        setCategories([]);
+      })
       .finally(() => setLoadingProducts(false));
   }, []);
 
@@ -249,7 +256,7 @@ const Index = () => {
           <div className="max-w-6xl mx-auto text-center animate-fade-in">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
               <span className="bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
-                Акция на оборудование <span className="text-[#1e3a8a] bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text">DARIBO</span>
+                Акция на оборудование <span className="text-[#1e3a8a] bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text">DARIBO (Дарибо)</span>
               </span>
               <br />
               <span className="text-gray-800">
@@ -388,13 +395,33 @@ const Index = () => {
           ) : products.length === 0 ? (
             <p className="text-center text-muted-foreground">Каталог временно недоступен. Попробуйте позже.</p>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...products]
-                .sort((a, b) => (a.price || 0) - (b.price || 0))
-                .map((item) => (
-                  <ProductCard key={item.offer_id} product={item} onRequest={openQuickForm} />
-                ))}
-            </div>
+            <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full">
+              <TabsList className="flex flex-wrap h-auto gap-1 bg-muted/60 p-2 mb-8 justify-start sm:justify-center">
+                <TabsTrigger value="all" className="text-base py-2 px-4">
+                  Все ({products.length})
+                </TabsTrigger>
+                {categories.map((cat) => {
+                  const count = products.filter((p) => p.category_id === cat.category_id).length;
+                  if (!count) return null;
+                  return (
+                    <TabsTrigger key={cat.category_id} value={cat.category_id} className="text-base py-2 px-4">
+                      {cat.name} ({count})
+                    </TabsTrigger>
+                  );
+                })}
+              </TabsList>
+
+              <TabsContent value={activeCategory} forceMount>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {[...products]
+                    .filter((p) => activeCategory === 'all' || p.category_id === activeCategory)
+                    .sort((a, b) => (a.price || 0) - (b.price || 0))
+                    .map((item) => (
+                      <ProductCard key={item.offer_id} product={item} onRequest={openQuickForm} />
+                    ))}
+                </div>
+              </TabsContent>
+            </Tabs>
           )}
         </div>
       </section>
