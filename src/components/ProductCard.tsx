@@ -16,6 +16,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import Icon from '@/components/ui/icon';
+import ImageLightbox from '@/components/ImageLightbox';
 
 export type ProductParam = { name: string; value: string; unit?: string };
 export type Product = {
@@ -40,9 +41,15 @@ type Props = {
 const ProductCard = ({ product, onRequest }: Props) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   const pictures = product.pictures.length ? product.pictures : [''];
   const mainImage = pictures[0] || '';
+  const openLightbox = (idx: number) => {
+    setLightboxIndex(idx);
+    setLightboxOpen(true);
+  };
   const discounted = Math.round(product.price * 0.95);
   const saving = Math.round(product.price * 0.05);
 
@@ -63,7 +70,10 @@ const ProductCard = ({ product, onRequest }: Props) => {
             <CarouselContent className="h-full">
               {pictures.map((pic, i) => (
                 <CarouselItem key={i} className="h-full">
-                  <div className="aspect-square w-full flex items-center justify-center p-4">
+                  <div
+                    className="aspect-square w-full flex items-center justify-center p-4 cursor-zoom-in"
+                    onClick={() => openLightbox(i)}
+                  >
                     <img
                       src={pic}
                       alt={`${product.name} ${i + 1}`}
@@ -91,10 +101,19 @@ const ProductCard = ({ product, onRequest }: Props) => {
           <img
             src={mainImage}
             alt={product.name}
-            className="w-full h-full object-contain hover:scale-105 transition-transform duration-300 p-4"
+            onClick={() => openLightbox(0)}
+            className="w-full h-full object-contain hover:scale-105 transition-transform duration-300 p-4 cursor-zoom-in"
           />
         )}
       </div>
+
+      <ImageLightbox
+        images={pictures}
+        startIndex={lightboxIndex}
+        open={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        alt={product.name}
+      />
       <CardContent className="p-6 flex-grow flex flex-col">
         <h3 className="text-xl sm:text-2xl font-bold mb-2">{product.name}</h3>
 

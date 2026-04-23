@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -119,7 +118,6 @@ const Index = () => {
           name: formData.name,
           phone: formData.phone,
           email: formData.email,
-          equipment: formData.equipment,
           comment: formData.comment,
           form_type: 'main_form',
           timestamp: new Date().toISOString()
@@ -162,7 +160,10 @@ const Index = () => {
           name: quickFormData.name,
           phone: quickFormData.phone,
           equipment: selectedEquipment,
+          equipment_name: selectedEquipment,
+          model: selectedEquipment,
           equipment_image: selectedEquipmentImage,
+          comment: `Интересует модель: ${selectedEquipment}`,
           form_type: 'quick_form',
           timestamp: new Date().toISOString()
         })
@@ -256,7 +257,7 @@ const Index = () => {
           <div className="max-w-6xl mx-auto text-center animate-fade-in">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
               <span className="bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
-                Акция на оборудование <span className="text-[#1e3a8a] bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text">DARIBO (Дарибо)</span>
+                Акция* на оборудование <span className="text-[#1e3a8a] bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text">DARIBO (Дарибо)</span>
               </span>
               <br />
               <span className="text-gray-800">
@@ -270,44 +271,6 @@ const Index = () => {
             <p className="text-lg sm:text-xl text-gray-700 mb-6 font-medium">
               Оборудование на складе
             </p>
-            
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 sm:p-6 mb-6 max-w-4xl mx-auto shadow-2xl">
-              <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3">Акция на оборудование:</h3>
-              <ul className="grid sm:grid-cols-2 gap-3 text-left">
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Автоматический слайсер DRB-120</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Шкуросъемная машина DRB-Y270</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Волчок для мяса DRB-JR 120</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Овощерезка DRB-108S</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Шпигорезка DRB-R350</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Инъектор DRB-ZS50</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Блокорезка DRB-PR 3000</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CircleCheck" size={20} className="text-orange-600 mt-1 flex-shrink-0" />
-                  <span className="text-base sm:text-lg">Профессиональный слайсер DRB-21K-C</span>
-                </li>
-              </ul>
-            </div>
             
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Button size="lg" onClick={() => scrollToSection('equipment')} className="text-lg sm:text-xl px-8 py-5 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
@@ -354,7 +317,7 @@ const Index = () => {
 
       <section id="promo" className="py-12 sm:py-20 bg-secondary text-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Акционные условия</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Акционные* условия</h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
             <div className="text-center animate-fade-in">
               <div className="w-20 h-20 sm:w-24 sm:h-24 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
@@ -500,30 +463,14 @@ const Index = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="email">Email *</Label>
+                    <Label htmlFor="email">Email</Label>
                     <Input 
                       id="email"
                       type="email"
-                      required
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
                       placeholder="your@email.com"
                     />
-                  </div>
-                  <div>
-                    <Label htmlFor="equipment">Выбор оборудования *</Label>
-                    <Select value={formData.equipment} onValueChange={(value) => setFormData({...formData, equipment: value})}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Выберите оборудование" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {products.map((item) => (
-                          <SelectItem key={item.offer_id} value={item.name}>
-                            {item.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
                   </div>
                   <div>
                     <Label htmlFor="comment">Комментарий</Label>
@@ -633,6 +580,7 @@ const Index = () => {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-white/20 text-center text-sm text-white/70 space-y-3">
+            <p className="text-xs max-w-3xl mx-auto leading-relaxed">*Подробную информацию об акции узнавайте у менеджеров компании.</p>
             <p className="text-xs max-w-3xl mx-auto leading-relaxed">Информация, представленная на сайте, не является публичной офертой. Данный интернет-сайт носит исключительно информационный характер и не является публичной офертой, определяемой положениями ч. 2 ст. 437 Гражданского кодекса РФ.</p>
             <p>© 2025 ТехноСиб. Все права защищены.</p>
           </div>
