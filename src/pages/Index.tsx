@@ -268,10 +268,6 @@ const Index = () => {
             <p className="text-xl sm:text-2xl md:text-3xl font-bold text-orange-600 mb-3">
               Скидка 5% от розничной цены
             </p>
-            <p className="text-lg sm:text-xl text-gray-700 mb-6 font-medium">
-              Оборудование на складе
-            </p>
-            
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Button size="lg" onClick={() => scrollToSection('equipment')} className="text-lg sm:text-xl px-8 py-5 h-auto bg-orange-600 hover:bg-orange-700 font-bold shadow-xl">
                 Смотреть каталог
@@ -363,15 +359,18 @@ const Index = () => {
                 <TabsTrigger value="all" className="text-base py-2 px-4">
                   Все ({products.length})
                 </TabsTrigger>
-                {categories.map((cat) => {
-                  const count = products.filter((p) => p.category_id === cat.category_id).length;
-                  if (!count) return null;
-                  return (
+                {categories
+                  .map((cat) => ({
+                    ...cat,
+                    count: products.filter((p) => p.category_id === cat.category_id).length,
+                  }))
+                  .filter((cat) => cat.count > 0)
+                  .sort((a, b) => b.count - a.count)
+                  .map((cat) => (
                     <TabsTrigger key={cat.category_id} value={cat.category_id} className="text-base py-2 px-4">
-                      {cat.name} ({count})
+                      {cat.name} ({cat.count})
                     </TabsTrigger>
-                  );
-                })}
+                  ))}
               </TabsList>
 
               <TabsContent value={activeCategory} forceMount>
@@ -582,7 +581,7 @@ const Index = () => {
           <div className="mt-8 pt-8 border-t border-white/20 text-center text-sm text-white/70 space-y-3">
             <p className="text-xs max-w-3xl mx-auto leading-relaxed">*Подробную информацию об акции узнавайте у менеджеров компании.</p>
             <p className="text-xs max-w-3xl mx-auto leading-relaxed">Информация, представленная на сайте, не является публичной офертой. Данный интернет-сайт носит исключительно информационный характер и не является публичной офертой, определяемой положениями ч. 2 ст. 437 Гражданского кодекса РФ.</p>
-            <p>© 2025 ТехноСиб. Все права защищены.</p>
+            <p>© {new Date().getFullYear()} ТехноСиб. Все права защищены.</p>
           </div>
         </div>
       </footer>
