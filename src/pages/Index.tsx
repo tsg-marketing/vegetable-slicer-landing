@@ -6,11 +6,12 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
+import ProductCard, { type Product } from '@/components/ProductCard';
+import func2url from '../../backend/func2url.json';
 
 const Index = () => {
   const { toast } = useToast();
@@ -26,6 +27,8 @@ const Index = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedEquipment, setSelectedEquipment] = useState('');
   const [selectedEquipmentImage, setSelectedEquipmentImage] = useState('');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -48,6 +51,14 @@ const Index = () => {
     const visitCount = parseInt(localStorage.getItem('visit_count') || '0') + 1;
     localStorage.setItem('visit_count', visitCount.toString());
     localStorage.setItem('last_visit', new Date().toISOString());
+
+    fetch(func2url.catalog)
+      .then((r) => r.json())
+      .then((data) => {
+        setProducts(Array.isArray(data.items) ? data.items : []);
+      })
+      .catch(() => setProducts([]))
+      .finally(() => setLoadingProducts(false));
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -172,115 +183,6 @@ const Index = () => {
     setSelectedEquipmentImage(equipmentImage || '');
     setIsDialogOpen(true);
   };
-
-  const equipment = [
-    {
-      id: 6,
-      name: 'Шкуросъемная машина DRB-Y270',
-      image: 'https://cdn.poehali.dev/files/bb38ce8b-08c0-4d72-a531-166aed397797.jpg',
-      features: ['Компактная конструкция', 'Регулируемый нож', 'Низкое количество отходов', 'Безопасность оператора'],
-      details: 'Настольная шкуросъемная машина для рыбы',
-      price: 492800
-    },
-    {
-      id: 5,
-      name: 'Машина для нарезки овощей DRB-108S',
-      image: 'https://cdn.poehali.dev/files/96e1e993-be6d-4de8-8cbf-e5ca559b9ee1.png',
-      features: ['Производительность до 800 кг/ч', '9 сменных решёток', 'Мобильная конструкция на колёсах', 'Лёгкая очистка'],
-      details: 'Полуавтоматическая овощерезательная машина',
-      price: 658000
-    },
-    {
-      id: 9,
-      name: 'Автоматический инъектор DRB-ZS50',
-      image: 'https://cdn.poehali.dev/files/fc17b83b-6f2d-402e-86f5-628e9fa2c4b6.png',
-      features: [
-        'Импортные компоненты, надёжная конструкция',
-        'Точечная посолка кости с воздушно-пружинным механизмом',
-        'Регулировка давления, скорости и шага инъекции',
-        'Мешалка для рассола против осадка и засоров',
-        'Точная пошаговая подача зубчатого типа',
-        'Возможность двойной инъекции (до 180%)',
-        'Простота эксплуатации и обслуживания'
-      ],
-      details: 'Количество игл: 50 шт. (диаметр 4 мм) • Скорость впрыска: 17–60 раз/мин • Ширина конвейера: 350 мм • Габариты: 1700×750×1650 мм • Вес: 560 кг • Высота продукта: до 180 мм',
-      price: 1285000
-    },
-    {
-      id: 4,
-      name: 'Блокорезка роторная DRB-PR 3000',
-      image: 'https://cdn.poehali.dev/files/a109eda6-fca3-4cf3-83a4-1c19d9f26844.png',
-      features: ['Производительность до 4000 кг/ч', 'Работа с блоками до 25 кг', 'Защитные кожухи', 'Регулируемая толщина резки'],
-      details: 'Высокопроизводительная блокорезка для замороженного мяса',
-      price: 1309000
-    },
-    {
-      id: 2,
-      name: 'Волчок для мяса DRB-JR 120 (нержавеющий корпус)',
-      image: 'https://cdn.poehali.dev/files/15be6eaa-7b1e-448b-a613-d0cd4fc3ca42.png',
-      features: [
-        'Переработка мороженого мяса (до -5°C), свежего мяса, субпродуктов, овощей',
-        'Режущий шнек с винтовыми лопастями и переменным шагом',
-        'Самозатачивающиеся ножи',
-        'Высокая производительность: 3–5 тонн в смену',
-        'Система безопасности при открытии решётки'
-      ],
-      details: 'Бренд: Daribo • Мощность: 7,5 кВт • Производительность: до 1000 кг/ч • Диаметр решетки: 120 мм • Размер отверстий решёток: Ø3–Ø30 мм • Бункер: 70 л • Габариты: 660×960×1150 мм • Вес: 302 кг',
-      price: 650000
-    },
-    {
-      id: 7,
-      name: 'Машина для нарезки кубиками DRB-R350',
-      image: 'https://cdn.poehali.dev/files/78b128f8-ca45-4c1c-9d7f-02b1f0894aee.jpg',
-      features: [
-        'Нарезка кубиками замороженного мяса, птицы, рыбы, морепродуктов',
-        'Система защиты с остановкой ножа при открытии кожуха',
-        'Лёгкая очистка: разборная режущая решётка и блок лезвий',
-        'Сенсорный экран для управления толщиной и глубиной нарезки',
-        'Соответствие стандартам HACCP'
-      ],
-      details: 'Бренд: Daribo • Мощность: 1,5 кВт • Производительность: 300–500 кг/ч • Размер камеры наполнителя: 84×84×350 мм • Размеры решёток на выбор: от 4 до 28 мм • Габариты: 1480×800×1000 мм • Вес: 400 кг',
-      price: 842830
-    },
-    {
-      id: 3,
-      name: 'Машина для нарезки DRB-PSD 300',
-      image: 'https://cdn.poehali.dev/files/bf1dd1db-a221-47ce-b8da-93fec6ea53e2.jpg',
-      features: ['Нарезка мяса, птицы, рыбы', 'Сенсорный экран', 'Быстрая разборка для мойки', 'Низкий уровень шума'],
-      details: 'Универсальная машина для нарезки кубиками и полосками',
-      price: 2012000
-    },
-    {
-      id: 8,
-      name: 'Автоматический слайсер DRB-120',
-      image: 'https://cdn.poehali.dev/files/759f3025-4e29-4751-b054-c0678ea66099.jpg',
-      features: [
-        'Нарезка мяса без костей, рыбы, овощей, сыра',
-        'Регулируемая скорость и толщина нарезки (1–40 мм)',
-        'Быстросъёмный транспортер для мойки',
-        'Серповидные ножи для плавной резки',
-        'Система безопасности с остановкой при открытии кожуха',
-        'Прижимная лента для фиксации продукта'
-      ],
-      details: 'Бренд: Daribo • Мощность: 1,5 кВт • Производительность: 150–800 кг/ч • Ширина транспортера: 120 мм • Макс. высота продукта: 80 мм • Габариты: 1350×600×1250 мм • Вес: 115 кг',
-      price: 492613
-    },
-    {
-      id: 1,
-      name: 'Профессиональный слайсер DRB-21K-C',
-      image: 'https://cdn.poehali.dev/files/4e44f4ae-fa6f-4853-a4f5-3f1907f48496.png',
-      features: [
-        'Нарезка мяса, рыбы, колбас, сыров на ломти толщиной 1–38 мм',
-        'Высокая скорость: до 280 резов в минуту',
-        'Большая укладочная камера: 210×165 мм',
-        'Подходит для свежего, охлаждённого и замороженного сырья (до -15°C)',
-        'Информативный ЖК-дисплей для управления',
-        'Оснащён отводящим транспортером'
-      ],
-      details: 'Бренд: Daribo • Скорость нарезки: до 280 резов/мин • Диапазон толщины: 1–38 мм • Размер укладочной камеры: 210×165 мм • Работа с замороженным сырьём: до -15°C',
-      price: 1439354
-    }
-  ];
 
   return (
     <div className="min-h-screen">
@@ -481,57 +383,19 @@ const Index = () => {
       <section id="equipment" className="py-12 sm:py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Каталог оборудования</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[...equipment].sort((a, b) => a.price - b.price).map((item) => (
-              <Card key={item.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div className="aspect-square w-full overflow-hidden bg-gray-100 relative">
-                  {item.price > 0 && (
-                    <div className="absolute top-4 right-4 bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg z-10">
-                      -5%
-                    </div>
-                  )}
-                  <img 
-                    src={item.image} 
-                    alt={item.name}
-                    className="w-full h-full object-contain hover:scale-105 transition-transform duration-300 p-4"
-                  />
-                </div>
-                <CardContent className="p-6 flex-grow flex flex-col">
-                  <h3 className="text-xl sm:text-2xl font-bold mb-2">{item.name}</h3>
-                  {item.price > 0 && (
-                    <div className="mb-4">
-                      <div className="flex items-baseline gap-3">
-                        <span className="text-3xl font-bold text-orange-600">{Math.round(item.price * 0.95).toLocaleString('ru-RU')} ₽</span>
-                        <span className="text-lg text-gray-400 line-through">{Math.round(item.price).toLocaleString('ru-RU')} ₽</span>
-                      </div>
-                      <p className="text-sm text-green-600 font-semibold mt-1">Экономия: {Math.round(item.price * 0.05).toLocaleString('ru-RU')} ₽</p>
-                    </div>
-                  )}
-                  <ul className="space-y-3 mb-6 flex-grow">
-                    {item.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-3">
-                        <Icon name="Check" size={24} className="text-primary mt-0.5 flex-shrink-0" />
-                        <span className="text-base sm:text-lg">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Accordion type="single" collapsible className="mb-4">
-                    <AccordionItem value="details" className="border-none">
-                      <AccordionTrigger className="text-primary hover:no-underline text-base sm:text-lg font-semibold">
-                        Подробнее о модели
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <p className="text-base text-muted-foreground">{item.details}</p>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                  <Button onClick={() => openQuickForm(item.name, item.image)} className="w-full text-lg py-6 font-semibold">
-                    Получить предложение
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          {loadingProducts ? (
+            <p className="text-center text-muted-foreground">Загружаем каталог...</p>
+          ) : products.length === 0 ? (
+            <p className="text-center text-muted-foreground">Каталог временно недоступен. Попробуйте позже.</p>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...products]
+                .sort((a, b) => (a.price || 0) - (b.price || 0))
+                .map((item) => (
+                  <ProductCard key={item.offer_id} product={item} onRequest={openQuickForm} />
+                ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -626,8 +490,8 @@ const Index = () => {
                         <SelectValue placeholder="Выберите оборудование" />
                       </SelectTrigger>
                       <SelectContent>
-                        {equipment.map((item) => (
-                          <SelectItem key={item.id} value={item.name}>
+                        {products.map((item) => (
+                          <SelectItem key={item.offer_id} value={item.name}>
                             {item.name}
                           </SelectItem>
                         ))}
