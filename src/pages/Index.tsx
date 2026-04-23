@@ -467,7 +467,7 @@ const Index = () => {
                 <Icon name="BadgePercent" size={48} className="text-white" />
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold mb-3">Скидка 5%</h3>
-              <p className="text-lg sm:text-xl text-white/90">При оплате до 22.12.2025</p>
+              <p className="text-lg sm:text-xl text-white/90">От розничной цены</p>
             </div>
           </div>
           <div className="text-center">
@@ -557,8 +557,7 @@ const Index = () => {
               <div className="flex gap-4 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                 <div className="w-12 h-12 bg-accent text-white rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">3</div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Оплатите до 26.12.2025</h3>
-                  <p className="text-muted-foreground">И получите скидку 5%</p>
+                  <h3 className="text-xl font-semibold mb-2">Получите скидку 5%</h3>
                 </div>
               </div>
               <div className="flex gap-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
