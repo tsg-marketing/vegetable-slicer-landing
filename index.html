@@ -28,6 +28,19 @@
 
     <meta name="pp-name" value="vegetable-slicer-landing">
       <script src="https://cdn.poehali.dev/intertnal/js/inspector-min.js"></script>
+    <style>
+      /* Скрываем встроенные виджеты Mailganer (всплывающую форму слева) */
+      [id^="mg_widget"],
+      [class^="mg_widget"],
+      [id^="mailganer"],
+      [class^="mailganer"],
+      iframe[src*="mailganer.com"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+    </style>
   </head>
 
 <!--mailganer.com start-->
