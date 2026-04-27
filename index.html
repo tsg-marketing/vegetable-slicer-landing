@@ -29,18 +29,43 @@
     <meta name="pp-name" value="vegetable-slicer-landing">
       <script src="https://cdn.poehali.dev/intertnal/js/inspector-min.js"></script>
     <style>
-      /* Скрываем встроенные виджеты Mailganer (всплывающую форму слева) */
-      [id^="mg_widget"],
-      [class^="mg_widget"],
+      /* Скрываем все встроенные виджеты Mailganer (всплывающую вкладку слева и любые формы) */
+      [id^="mg_"],
+      [class*="mg_"],
       [id^="mailganer"],
-      [class^="mailganer"],
-      iframe[src*="mailganer.com"] {
+      [class*="mailganer"],
+      [id*="mgWidget"],
+      [class*="mgWidget"],
+      [data-mg-widget],
+      [data-mailganer],
+      iframe[src*="mailganer.com"],
+      iframe[src*="mailganer"],
+      div[style*="mailganer"] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
         pointer-events: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
       }
     </style>
+    <script>
+      // Дополнительная страховка: периодически удаляем DOM-узлы виджета Mailganer
+      (function () {
+        function nukeMailganer() {
+          var nodes = document.querySelectorAll(
+            '[id^="mg_"], [class*="mg_"], [id^="mailganer"], [class*="mailganer"], [id*="mgWidget"], [class*="mgWidget"], iframe[src*="mailganer"]'
+          );
+          nodes.forEach(function (n) {
+            if (n && n.parentNode) n.parentNode.removeChild(n);
+          });
+        }
+        if (document.readyState !== 'loading') nukeMailganer();
+        else document.addEventListener('DOMContentLoaded', nukeMailganer);
+        setInterval(nukeMailganer, 800);
+      })();
+    </script>
   </head>
 
 <!--mailganer.com start-->
