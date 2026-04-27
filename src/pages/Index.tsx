@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import ProductCard, { type Product } from '@/components/ProductCard';
+import SubscribeButton from '@/components/SubscribeButton';
 import func2url from '../../backend/func2url.json';
 
 const Index = () => {
@@ -577,6 +578,9 @@ const Index = () => {
                 <p className="text-white/90">Москва, ш. Энтузиастов, д. 56, стр. 32, офис 115</p>
               </div>
             </div>
+          </div>
+          <div className="mt-8 flex justify-center">
+            <SubscribeButton />
           </div>
           <div className="mt-8 pt-8 border-t border-white/20 text-center text-sm text-white/70 space-y-3">
             <p className="text-xs max-w-3xl mx-auto leading-relaxed">*Подробную информацию об акции узнавайте у менеджеров компании.</p>
