@@ -5,6 +5,18 @@ import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 
+declare global {
+  interface Window {
+    mg_subscribe?: (
+      email: string,
+      onSuccess: () => void,
+      onError: () => void
+    ) => void;
+  }
+}
+
+const MG_SCRIPT_SRC = 'https://mailganer.com/static/widget/js/mg-static.js';
+
 const SubscribeButton = () => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
@@ -13,6 +25,13 @@ const SubscribeButton = () => {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    if (!document.querySelector(`script[src="${MG_SCRIPT_SRC}"]`)) {
+      const script = document.createElement('script');
+      script.src = MG_SCRIPT_SRC;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+
     if (window.location.hash === '#subscribe') setOpen(true);
   }, []);
 
@@ -28,7 +47,7 @@ const SubscribeButton = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     const value = email.trim();
@@ -42,33 +61,28 @@ const SubscribeButton = () => {
       return;
     }
 
-    setSubmitting(true);
-    try {
-      await fetch('/api/b24-send-lead.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: value,
-          form_type: 'subscribe',
-          comment: 'Подписка на рассылку',
-          timestamp: new Date().toISOString(),
-        }),
-      });
-      toast({
-        title: 'Спасибо за подписку!',
-        description: `Мы будем присылать самые выгодные предложения на ${value}`,
-      });
-      setEmail('');
-      handleClose(false);
-    } catch {
-      toast({
-        title: 'Ошибка',
-        description: 'Не удалось оформить подписку. Попробуйте позже.',
-        variant: 'destructive',
-      });
-    } finally {
-      setSubmitting(false);
+    if (typeof window.mg_subscribe !== 'function') {
+      setError('Ошибка: скрипт Mailganer не загружен.');
+      return;
     }
+
+    setSubmitting(true);
+    window.mg_subscribe(
+      value,
+      () => {
+        toast({
+          title: 'Спасибо за подписку!',
+          description: `Мы будем присылать самые выгодные предложения на ${value}`,
+        });
+        setEmail('');
+        setSubmitting(false);
+        handleClose(false);
+      },
+      () => {
+        setError('Ошибка при подписке. Попробуйте позже.');
+        setSubmitting(false);
+      }
+    );
   };
 
   return (
