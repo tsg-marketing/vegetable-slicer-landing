@@ -11,6 +11,7 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel';
 import Icon from '@/components/ui/icon';
+import VideoModal from '@/components/VideoModal';
 import { categorySlug, productSlug } from '@/lib/slug';
 import { isVideoParam, extractUrl } from '@/lib/productParams';
 
@@ -38,6 +39,7 @@ const ProductCard = ({ product, onRequest }: Props) => {
   const navigate = useNavigate();
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
   const pictures = product.pictures.length ? product.pictures : [''];
   const mainImage = pictures[0] || '';
@@ -134,16 +136,14 @@ const ProductCard = ({ product, onRequest }: Props) => {
                   <span className="text-base">
                     <span className="font-semibold">{p.name}:</span>{' '}
                     {url ? (
-                      <a
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); setVideoUrl(url); }}
                         className="text-primary hover:underline inline-flex items-center gap-1"
                       >
                         <Icon name="PlayCircle" size={16} />
                         Смотреть видео
-                      </a>
+                      </button>
                     ) : (
                       <>
                         {p.value}
@@ -174,6 +174,7 @@ const ProductCard = ({ product, onRequest }: Props) => {
           </Button>
         </div>
       </CardContent>
+      <VideoModal url={videoUrl} title={product.name} onClose={() => setVideoUrl(null)} />
     </Card>
   );
 };

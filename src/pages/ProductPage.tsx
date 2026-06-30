@@ -8,6 +8,7 @@ import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import ImageLightbox from '@/components/ImageLightbox';
 import useSeo from '@/hooks/useSeo';
+import VideoModal from '@/components/VideoModal';
 import { categorySlug, productSlug } from '@/lib/slug';
 import { isVideoParam, extractUrl } from '@/lib/productParams';
 import { type Product } from '@/components/ProductCard';
@@ -22,6 +23,7 @@ const ProductPage = () => {
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [form, setForm] = useState({ name: '', phone: '+7' });
 
   useEffect(() => {
@@ -180,7 +182,12 @@ const ProductPage = () => {
           {product.category_name && (
             <>
               <Icon name="ChevronRight" size={14} />
-              <span>{product.category_name}</span>
+              <Link
+                to={`/category/${categorySlug(product.category_name, product.category_id)}`}
+                className="hover:text-primary"
+              >
+                {product.category_name}
+              </Link>
             </>
           )}
           <Icon name="ChevronRight" size={14} />
@@ -253,15 +260,14 @@ const ProductPage = () => {
                           {p.name}{p.unit ? `, ${p.unit}` : ''}
                         </span>
                         {url ? (
-                          <a
-                            href={url}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <button
+                            type="button"
+                            onClick={() => setVideoUrl(url)}
                             className="font-semibold text-primary hover:underline inline-flex items-center gap-1.5 justify-self-end"
                           >
                             <Icon name="PlayCircle" size={18} />
                             Смотреть видео
-                          </a>
+                          </button>
                         ) : (
                           <span className="font-semibold text-right justify-self-end">
                             {p.value}{p.unit ? ` ${p.unit}` : ''}
@@ -354,6 +360,7 @@ const ProductPage = () => {
           </Button>
         </div>
       </main>
+      <VideoModal url={videoUrl} title={product.name} onClose={() => setVideoUrl(null)} />
     </div>
   );
 };
