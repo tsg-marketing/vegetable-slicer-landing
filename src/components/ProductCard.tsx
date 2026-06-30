@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/carousel';
 import Icon from '@/components/ui/icon';
 import { categorySlug, productSlug } from '@/lib/slug';
+import { isVideoParam, extractUrl } from '@/lib/productParams';
 
 export type ProductParam = { name: string; value: string; unit?: string };
 export type Product = {
@@ -125,16 +126,34 @@ const ProductCard = ({ product, onRequest }: Props) => {
 
         {product.params.length > 0 && (
           <ul className="space-y-2 mb-6 flex-grow">
-            {product.params.map((p, idx) => (
-              <li key={idx} className="flex items-start gap-3">
-                <Icon name="Check" size={20} className="text-primary mt-1 flex-shrink-0" />
-                <span className="text-base">
-                  <span className="font-semibold">{p.name}:</span>{' '}
-                  {p.value}
-                  {p.unit ? ` ${p.unit}` : ''}
-                </span>
-              </li>
-            ))}
+            {product.params.map((p, idx) => {
+              const url = isVideoParam(p) ? extractUrl(p.value) : null;
+              return (
+                <li key={idx} className="flex items-start gap-3">
+                  <Icon name="Check" size={20} className="text-primary mt-1 flex-shrink-0" />
+                  <span className="text-base">
+                    <span className="font-semibold">{p.name}:</span>{' '}
+                    {url ? (
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-primary hover:underline inline-flex items-center gap-1"
+                      >
+                        <Icon name="PlayCircle" size={16} />
+                        Смотреть видео
+                      </a>
+                    ) : (
+                      <>
+                        {p.value}
+                        {p.unit ? ` ${p.unit}` : ''}
+                      </>
+                    )}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         )}
 

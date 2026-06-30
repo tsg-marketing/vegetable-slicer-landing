@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import ImageLightbox from '@/components/ImageLightbox';
 import useSeo from '@/hooks/useSeo';
 import { categorySlug, productSlug } from '@/lib/slug';
+import { isVideoParam, extractUrl } from '@/lib/productParams';
 import { type Product } from '@/components/ProductCard';
 import func2url from '../../backend/func2url.json';
 
@@ -253,23 +254,7 @@ const ProductPage = () => {
               </div>
             )}
 
-            {product.params.length > 0 && (
-              <div className="mb-6">
-                <h2 className="text-xl font-bold mb-3">Характеристики</h2>
-                <ul className="divide-y divide-gray-100 border border-gray-100 rounded-xl overflow-hidden">
-                  {product.params.map((p, idx) => (
-                    <li key={idx} className="flex justify-between gap-4 px-4 py-3 odd:bg-gray-50">
-                      <span className="text-muted-foreground">{p.name}</span>
-                      <span className="font-semibold text-right">
-                        {p.value}{p.unit ? ` ${p.unit}` : ''}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <Card className="bg-secondary text-white">
+            <Card className="bg-secondary text-white mb-8">
               <CardContent className="p-5">
                 <h2 className="text-xl font-bold mb-1">Получить предложение со скидкой</h2>
                 <p className="text-white/80 text-sm mb-4">Оставьте контакты — пришлём КП с акционной ценой</p>
@@ -302,6 +287,42 @@ const ProductPage = () => {
                 </form>
               </CardContent>
             </Card>
+
+            {product.params.length > 0 && (
+              <div>
+                <h2 className="text-xl font-bold mb-3">Характеристики</h2>
+                <div className="border border-gray-200 rounded-xl overflow-hidden">
+                  {product.params.map((p, idx) => {
+                    const url = isVideoParam(p) ? extractUrl(p.value) : null;
+                    return (
+                      <div
+                        key={idx}
+                        className="grid grid-cols-[1fr_auto] gap-4 px-4 py-3 items-baseline odd:bg-gray-50"
+                      >
+                        <span className="text-muted-foreground">
+                          {p.name}{p.unit ? `, ${p.unit}` : ''}
+                        </span>
+                        {url ? (
+                          <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-semibold text-primary hover:underline inline-flex items-center gap-1.5 justify-self-end"
+                          >
+                            <Icon name="PlayCircle" size={18} />
+                            Смотреть видео
+                          </a>
+                        ) : (
+                          <span className="font-semibold text-right justify-self-end">
+                            {p.value}{p.unit ? ` ${p.unit}` : ''}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
