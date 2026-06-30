@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,14 +10,8 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from '@/components/ui/carousel';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import Icon from '@/components/ui/icon';
-import ImageLightbox from '@/components/ImageLightbox';
+import { categorySlug, productSlug } from '@/lib/slug';
 
 export type ProductParam = { name: string; value: string; unit?: string };
 export type Product = {
@@ -39,17 +34,14 @@ type Props = {
 };
 
 const ProductCard = ({ product, onRequest }: Props) => {
+  const navigate = useNavigate();
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   const pictures = product.pictures.length ? product.pictures : [''];
   const mainImage = pictures[0] || '';
-  const openLightbox = (idx: number) => {
-    setLightboxIndex(idx);
-    setLightboxOpen(true);
-  };
+  const productUrl = `/${categorySlug(product.category_name || '', product.category_id)}/${productSlug(product.name, product.offer_id)}`;
+  const goToProduct = () => navigate(productUrl);
   const discounted = Math.round(product.price * 0.95);
   const saving = Math.round(product.price * 0.05);
 
@@ -71,8 +63,8 @@ const ProductCard = ({ product, onRequest }: Props) => {
               {pictures.map((pic, i) => (
                 <CarouselItem key={i} className="h-full">
                   <div
-                    className="aspect-square w-full flex items-center justify-center p-4 cursor-zoom-in"
-                    onClick={() => openLightbox(i)}
+                    className="aspect-square w-full flex items-center justify-center p-4 cursor-pointer"
+                    onClick={goToProduct}
                   >
                     <img
                       src={pic}
@@ -101,21 +93,19 @@ const ProductCard = ({ product, onRequest }: Props) => {
           <img
             src={mainImage}
             alt={product.name}
-            onClick={() => openLightbox(0)}
-            className="w-full h-full object-contain hover:scale-105 transition-transform duration-300 p-4 cursor-zoom-in"
+            onClick={goToProduct}
+            className="w-full h-full object-contain hover:scale-105 transition-transform duration-300 p-4 cursor-pointer"
           />
         )}
       </div>
 
-      <ImageLightbox
-        images={pictures}
-        startIndex={lightboxIndex}
-        open={lightboxOpen}
-        onClose={() => setLightboxOpen(false)}
-        alt={product.name}
-      />
       <CardContent className="p-6 flex-grow flex flex-col">
-        <h3 className="text-xl sm:text-2xl font-bold mb-2">{product.name}</h3>
+        <h3
+          onClick={goToProduct}
+          className="text-xl sm:text-2xl font-bold mb-2 cursor-pointer hover:text-primary transition-colors"
+        >
+          {product.name}
+        </h3>
 
         {product.price > 0 && (
           <div className="mb-4">
@@ -148,28 +138,22 @@ const ProductCard = ({ product, onRequest }: Props) => {
           </ul>
         )}
 
-        {product.description && (
-          <Accordion type="single" collapsible className="mb-4">
-            <AccordionItem value="details" className="border-none">
-              <AccordionTrigger className="text-primary hover:no-underline text-base sm:text-lg font-semibold">
-                Подробнее о модели
-              </AccordionTrigger>
-              <AccordionContent>
-                <div
-                  className="prose prose-sm max-w-none text-muted-foreground [&_a]:text-primary [&_img]:rounded-md"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
-                />
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        )}
-
-        <Button
-          onClick={() => onRequest(product.name, mainImage)}
-          className="w-full text-lg py-6 font-semibold mt-auto"
-        >
-          Получить предложение
-        </Button>
+        <div className="mt-auto space-y-3">
+          <Button
+            variant="outline"
+            onClick={goToProduct}
+            className="w-full text-base py-5 font-semibold border-primary text-primary hover:bg-primary/5"
+          >
+            Подробнее о модели
+            <Icon name="ArrowRight" size={18} className="ml-2" />
+          </Button>
+          <Button
+            onClick={() => onRequest(product.name, mainImage)}
+            className="w-full text-lg py-6 font-semibold"
+          >
+            Получить предложение
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
