@@ -189,7 +189,15 @@ const ProductPage = () => {
       </div>
 
       <main className="container mx-auto px-4 pb-16">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="mb-6">
+          {product.brand && (
+            <p className="text-sm font-semibold text-muted-foreground uppercase mb-2">{product.brand}</p>
+          )}
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold">{product.name}</h1>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+          {/* Колонка 1 — фото */}
           <div>
             <div className="aspect-square w-full bg-gray-100 rounded-2xl overflow-hidden relative flex items-center justify-center">
               {product.price > 0 && (
@@ -228,68 +236,10 @@ const ProductPage = () => {
             />
           </div>
 
+          {/* Колонка 2 — характеристики */}
           <div>
-            {product.brand && (
-              <p className="text-sm font-semibold text-muted-foreground uppercase mb-2">{product.brand}</p>
-            )}
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4">{product.name}</h1>
-
-            {product.price > 0 && (
-              <div className="mb-6 bg-orange-50 border border-orange-200 rounded-xl p-5">
-                <div className="flex items-baseline gap-3 flex-wrap">
-                  <span className="text-3xl sm:text-4xl font-bold text-orange-600">
-                    {discounted.toLocaleString('ru-RU')} ₽
-                  </span>
-                  <span className="text-xl text-gray-400 line-through">
-                    {product.price.toLocaleString('ru-RU')} ₽
-                  </span>
-                </div>
-                <p className="text-base text-green-600 font-semibold mt-1">
-                  Экономия по акции: {saving.toLocaleString('ru-RU')} ₽
-                </p>
-                <div className="flex items-center gap-2 mt-3 text-sm text-secondary">
-                  <Icon name="BadgePercent" size={18} className="text-orange-600" />
-                  Акция: скидка 5% от розничной цены
-                </div>
-              </div>
-            )}
-
-            <Card className="bg-secondary text-white mb-8">
-              <CardContent className="p-5">
-                <h2 className="text-xl font-bold mb-1">Получить предложение со скидкой</h2>
-                <p className="text-white/80 text-sm mb-4">Оставьте контакты — пришлём КП с акционной ценой</p>
-                <form onSubmit={handleSubmit} className="space-y-3">
-                  <div>
-                    <Label htmlFor="pp-name" className="text-white">Ваше имя</Label>
-                    <Input
-                      id="pp-name"
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      placeholder="Иван"
-                      required
-                      className="bg-white text-foreground"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="pp-phone" className="text-white">Телефон</Label>
-                    <Input
-                      id="pp-phone"
-                      value={form.phone}
-                      onChange={(e) => handlePhoneChange(e.target.value)}
-                      placeholder="+7XXXXXXXXXX"
-                      required
-                      className="bg-white text-foreground"
-                    />
-                  </div>
-                  <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-lg py-6 font-semibold">
-                    Получить КП со скидкой 5%
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-
-            {product.params.length > 0 && (
-              <div>
+            {product.params.length > 0 ? (
+              <>
                 <h2 className="text-xl font-bold mb-3">Характеристики</h2>
                 <div className="border border-gray-200 rounded-xl overflow-hidden">
                   {product.params.map((p, idx) => {
@@ -321,8 +271,69 @@ const ProductPage = () => {
                     );
                   })}
                 </div>
+              </>
+            ) : (
+              <p className="text-muted-foreground">Характеристики уточняйте у менеджера.</p>
+            )}
+          </div>
+
+          {/* Колонка 3 — цена и ФОС */}
+          <div className="lg:sticky lg:top-24 space-y-4">
+            {product.price > 0 && (
+              <div className="bg-orange-50 border border-orange-200 rounded-xl p-5">
+                <div className="flex items-baseline gap-3 flex-wrap">
+                  <span className="text-3xl font-bold text-orange-600">
+                    {discounted.toLocaleString('ru-RU')} ₽
+                  </span>
+                  <span className="text-lg text-gray-400 line-through">
+                    {product.price.toLocaleString('ru-RU')} ₽
+                  </span>
+                </div>
+                <p className="text-base text-green-600 font-semibold mt-1">
+                  Экономия по акции: {saving.toLocaleString('ru-RU')} ₽
+                </p>
+                <div className="flex items-center gap-2 mt-3 text-sm text-secondary">
+                  <Icon name="BadgePercent" size={18} className="text-orange-600" />
+                  Акция: скидка 5% от розничной цены
+                </div>
               </div>
             )}
+
+            <Card className="bg-secondary text-white">
+              <CardContent className="p-5">
+                <h2 className="text-xl font-bold mb-1">
+                  {product.price > 0 ? 'Получить предложение со скидкой' : 'Узнать стоимость'}
+                </h2>
+                <p className="text-white/80 text-sm mb-4">Оставьте контакты — пришлём КП с актуальной ценой</p>
+                <form onSubmit={handleSubmit} className="space-y-3">
+                  <div>
+                    <Label htmlFor="pp-name" className="text-white">Ваше имя</Label>
+                    <Input
+                      id="pp-name"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      placeholder="Иван"
+                      required
+                      className="bg-white text-foreground"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="pp-phone" className="text-white">Телефон</Label>
+                    <Input
+                      id="pp-phone"
+                      value={form.phone}
+                      onChange={(e) => handlePhoneChange(e.target.value)}
+                      placeholder="+7XXXXXXXXXX"
+                      required
+                      className="bg-white text-foreground"
+                    />
+                  </div>
+                  <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-lg py-6 font-semibold">
+                    {product.price > 0 ? 'Получить КП со скидкой 5%' : 'Узнать стоимость'}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
           </div>
         </div>
 
