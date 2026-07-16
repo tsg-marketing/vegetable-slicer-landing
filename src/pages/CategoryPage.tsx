@@ -8,6 +8,7 @@ import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import useSeo from '@/hooks/useSeo';
 import ProductCard, { type Product } from '@/components/ProductCard';
+import SiteFooter from '@/components/SiteFooter';
 import { categorySlug } from '@/lib/slug';
 import func2url from '../../backend/func2url.json';
 
@@ -200,6 +201,8 @@ const CategoryPage = () => {
           </form>
         </DialogContent>
       </Dialog>
+
+      <SiteFooter />
     </div>
   );
 };

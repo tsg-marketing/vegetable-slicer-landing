@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import ImageLightbox from '@/components/ImageLightbox';
 import useSeo from '@/hooks/useSeo';
 import VideoModal from '@/components/VideoModal';
+import SiteFooter from '@/components/SiteFooter';
 import { categorySlug, productSlug } from '@/lib/slug';
 import { isVideoParam, extractUrl } from '@/lib/productParams';
 import { type Product } from '@/components/ProductCard';
@@ -361,6 +362,7 @@ const ProductPage = () => {
         </div>
       </main>
       <VideoModal url={videoUrl} title={product.name} onClose={() => setVideoUrl(null)} />
+      <SiteFooter />
     </div>
   );
 };
