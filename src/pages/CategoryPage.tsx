@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import useSeo from '@/hooks/useSeo';
 import ProductCard, { type Product } from '@/components/ProductCard';
 import SiteFooter from '@/components/SiteFooter';
+import { getYaClientId } from '@/lib/yaClientId';
 import { categorySlug } from '@/lib/slug';
 import func2url from '../../backend/func2url.json';
 
@@ -89,6 +90,9 @@ const CategoryPage = () => {
       return;
     }
     try {
+      const yaClientId = await getYaClientId();
+      const baseComment = `Интересует модель: ${selectedEquipment}`;
+      const comment = yaClientId ? `${baseComment}\nClientID: ${yaClientId}` : baseComment;
       const response = await fetch('/api/b24-send-lead.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -99,7 +103,8 @@ const CategoryPage = () => {
           equipment_name: selectedEquipment,
           model: selectedEquipment,
           equipment_image: selectedEquipmentImage,
-          comment: `Интересует модель: ${selectedEquipment}`,
+          comment,
+          yaClientId,
           form_type: 'category_page',
           timestamp: new Date().toISOString(),
         }),

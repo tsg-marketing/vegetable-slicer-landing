@@ -10,6 +10,7 @@ import ImageLightbox from '@/components/ImageLightbox';
 import useSeo from '@/hooks/useSeo';
 import VideoModal from '@/components/VideoModal';
 import SiteFooter from '@/components/SiteFooter';
+import { getYaClientId } from '@/lib/yaClientId';
 import { categorySlug, productSlug } from '@/lib/slug';
 import { isVideoParam, extractUrl } from '@/lib/productParams';
 import { type Product } from '@/components/ProductCard';
@@ -119,6 +120,9 @@ const ProductPage = () => {
       return;
     }
     try {
+      const yaClientId = await getYaClientId();
+      const baseComment = `Интересует модель: ${product?.name}`;
+      const comment = yaClientId ? `${baseComment}\nClientID: ${yaClientId}` : baseComment;
       const response = await fetch('/api/b24-send-lead.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -129,7 +133,8 @@ const ProductPage = () => {
           equipment_name: product?.name,
           model: product?.name,
           equipment_image: pictures[0],
-          comment: `Интересует модель: ${product?.name}`,
+          comment,
+          yaClientId,
           form_type: 'product_page',
           timestamp: new Date().toISOString(),
         }),

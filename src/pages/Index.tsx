@@ -12,6 +12,7 @@ import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import ProductCard, { type Product } from '@/components/ProductCard';
 import SiteFooter from '@/components/SiteFooter';
+import { getYaClientId } from '@/lib/yaClientId';
 import func2url from '../../backend/func2url.json';
 
 const Index = () => {
@@ -112,6 +113,10 @@ const Index = () => {
     }
 
     try {
+      const yaClientId = await getYaClientId();
+      const comment = yaClientId
+        ? `${formData.comment}\nClientID: ${yaClientId}`.trim()
+        : formData.comment;
       const response = await fetch('/api/b24-send-lead.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -119,7 +124,8 @@ const Index = () => {
           name: formData.name,
           phone: formData.phone,
           email: formData.email,
-          comment: formData.comment,
+          comment,
+          yaClientId,
           form_type: 'main_form',
           timestamp: new Date().toISOString()
         })
@@ -154,6 +160,9 @@ const Index = () => {
     }
 
     try {
+      const yaClientId = await getYaClientId();
+      const baseComment = `Интересует модель: ${selectedEquipment}`;
+      const comment = yaClientId ? `${baseComment}\nClientID: ${yaClientId}` : baseComment;
       const response = await fetch('/api/b24-send-lead.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -164,7 +173,8 @@ const Index = () => {
           equipment_name: selectedEquipment,
           model: selectedEquipment,
           equipment_image: selectedEquipmentImage,
-          comment: `Интересует модель: ${selectedEquipment}`,
+          comment,
+          yaClientId,
           form_type: 'quick_form',
           timestamp: new Date().toISOString()
         })
