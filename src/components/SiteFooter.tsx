@@ -10,8 +10,8 @@ const SiteFooter = () => (
             <Icon name="Phone" size={20} />
             Телефон
           </h4>
-          <a href="tel:88005110977" className="text-white/90 hover:text-white transition-colors">
-            8-800-511-09-77
+          <a href="tel:88005004054" className="text-white/90 hover:text-white transition-colors">
+            8-800-500-4-054
           </a>
         </div>
         <div>

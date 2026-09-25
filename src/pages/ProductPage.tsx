@@ -173,9 +173,9 @@ const ProductPage = () => {
           <Link to="/">
             <img src="https://cdn.poehali.dev/files/360a80ca-f911-4f02-94ff-c2728b707994.jpg" alt="ТехноСиб" className="h-8 sm:h-10" />
           </Link>
-          <a href="tel:88005110977" className="flex items-center gap-2 text-base sm:text-lg font-bold text-primary">
+          <a href="tel:88005004054" className="flex items-center gap-2 text-base sm:text-lg font-bold text-primary">
             <Icon name="Phone" size={20} />
-            <span className="hidden sm:inline">8-800-511-09-77</span>
+            <span className="hidden sm:inline">8-800-500-4-054</span>
           </a>
         </div>
       </header>

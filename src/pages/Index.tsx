@@ -216,14 +216,14 @@ const Index = () => {
               <button onClick={() => scrollToSection('contacts')} className="text-lg font-semibold hover:text-primary transition-colors">Контакты</button>
             </nav>
             <div className="hidden md:flex items-center gap-4">
-              <a href="tel:88005110977" className="flex items-center gap-2 text-lg font-bold text-primary hover:text-primary/80 transition-colors">
+              <a href="tel:88005004054" className="flex items-center gap-2 text-lg font-bold text-primary hover:text-primary/80 transition-colors">
                 <Icon name="Phone" size={20} />
-                <span className="hidden lg:inline">8-800-511-09-77</span>
+                <span className="hidden lg:inline">8-800-500-4-054</span>
               </a>
               <Button onClick={() => scrollToSection('form')} className="text-base font-semibold">Получить консультацию</Button>
             </div>
             <div className="flex items-center gap-3 md:hidden">
-              <a href="tel:88005110977" className="text-primary">
+              <a href="tel:88005004054" className="text-primary">
                 <Icon name="Phone" size={24} />
               </a>
               <Sheet>
@@ -234,9 +234,9 @@ const Index = () => {
                 </SheetTrigger>
                 <SheetContent>
                   <nav className="flex flex-col gap-6 mt-8">
-                    <a href="tel:88005110977" className="flex items-center gap-2 text-xl font-bold text-primary">
+                    <a href="tel:88005004054" className="flex items-center gap-2 text-xl font-bold text-primary">
                       <Icon name="Phone" size={24} />
-                      8-800-511-09-77
+                      8-800-500-4-054
                     </a>
                     <button onClick={() => scrollToSection('hero')} className="text-lg hover:text-primary transition-colors text-left">Главная</button>
                     <button onClick={() => scrollToSection('equipment')} className="text-lg hover:text-primary transition-colors text-left">Оборудование</button>
